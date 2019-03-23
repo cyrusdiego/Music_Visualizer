@@ -32,13 +32,13 @@ void rearrange(complex_vec &samples){
 
 // main fft function
 // double check type of the samples, how big of an int
-complex_vec FFT(complex_vec samples){
+void FFT(complex_vec& samples){
     assert(log2(samples.size()) >= 0); // ensures that the size is 2^m m >= 0
 
     int N = samples.size();
 
     if(N == 1){
-        return samples;  // figure out what to actually return
+        return;  // figure out what to actually return
     }
     else{
         rearrange(samples);  // rearrange order for easier odd / even
@@ -53,19 +53,15 @@ complex_vec FFT(complex_vec samples){
         sample_odd.insert(sample_odd.begin(),samples.begin() + N/2, samples.end());
 
         // conquer
-        complex_vec Y_even = FFT(sample_even);
-        complex_vec Y_odd = FFT(sample_odd);
-
-        complex_vec Y;
-        Y.assign(N,0);
+        FFT(sample_even);
+        FFT(sample_odd);
 
         for(int j = 0; j < (N / 2); ++j){
-            Y.at(j) = Y_even.at(j) + (W * Y_odd.at(j));
-            Y.at(j + N/2) = Y_even.at(j) - (W* Y_odd.at(j));
+            samples.at(j) = sample_even.at(j) + (W * sample_odd.at(j));
+            samples.at(j + N/2) = sample_even.at(j) - (W* sample_odd.at(j));
             W *= W_N;
         }
 
-        return Y;
     }
 
 }
@@ -82,9 +78,9 @@ int main(){
     for(auto i = input.begin(); i != input.end();i++){
         cout << real(*i) << " " << imag(*i) << endl;
     }
-    complex_vec output = FFT(input);
+    FFT(input);
     cout << "FFT results" << endl;
-    for(auto i = output.begin(); i != output.end(); i++){
+    for(auto i = input.begin(); i != input.end(); i++){
         cout << real(*i) << " " << imag(*i) << endl;
     }
     return 0;
