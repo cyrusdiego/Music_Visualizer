@@ -5,7 +5,7 @@ PROJECT = test
 $(PROJECT): $(OBJ)
 		$(VER) $(OBJ) -o $(PROJECT) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 $(OBJ):
-	 	$(VER) -c main.cpp -o $(OBJ)
+	 	$(VER) -c FFT.cpp -o $(OBJ)
 clean:
 		@rm -f $(OBJ)
 		@rm -f $(PROJECT)
