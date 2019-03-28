@@ -1,12 +1,10 @@
-
-
 # Compiled Object files
 *.o
 
 # Executables
 *.exe
 *.out
-
+*.bin
 
 # .wav
 *.wav
