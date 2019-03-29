@@ -3,7 +3,7 @@ OBJ = test.o
 PROJECT = test
 
 $(PROJECT): $(OBJ)
-		$(VER) $(OBJ) -o $(PROJECT) -lsfml-window -lsfml-system -lsfml-graphics
+		$(VER) $(OBJ) -o $(PROJECT) -lsfml-window -lsfml-system -lsfml-graphics -lGL -lGLEW
 $(OBJ):
 	 	$(VER) -c basic_window.cpp -o $(OBJ)
 clean:
