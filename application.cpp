@@ -1,69 +1,79 @@
+/*
+    NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
+    ID: 1528911 and
+    CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
+
+    application.cpp : implementation of the application class
+*/
 #include "globals.h"
 #include "application.h"
-#include "iostream"
+#include <iostream>
+/*
+    constructor to launch the window and configures window properties
+    @param : title of the window
+*/
 application::application(const std::string title) {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
+
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default, settings);
-    music.openFromFile("The_Beatles_-_Come_Together-45cYwDMibGo.wav");
-    rectangle.setSize(sf::Vector2f(window.getSize().x , 50.f));
+    window.setKeyRepeatEnabled(false);
+    music_bars = bars();
+    windowSetup();
 }
 
 application::~application() {}
 
-void application::run() {
-    while(true) {
-        processEvents();
-        updateScreen();
-        renderScreen();
+void application::windowSetup() {
+    for(auto i = music_bars.begin(); i != music_bars.end(); i++){
+        window.draw(*i);
+        window.display();
     }
 }
 
+/*
+    run is the main application loop that will check for events, update the buffer,
+    then render on the screen
+*/
+void application::run() {
+    while(window.isOpen()) {
+        processEvents();
+        // renderScreen();
+        // updateScreen();
+
+    }
+}
+
+/*
+    processEvents will check for any events and act accordingly
+*/
 void application::processEvents() {
     if(window.pollEvent(event)){
         switch(event.type){
-            case sf::Event::Closed:
+            case sf::Event::Closed:  // closes window
                 window.close();
                 break;
-            case sf::Event::KeyPressed:
-                if(event.key.code == sf::Keyboard::Q)
+
+            case sf::Event::KeyPressed:  // checks for keyboard input
+                if(event.key.code == sf::Keyboard::Q)  // closes window with "Q"
                     window.close();
-                if (event.key.code == sf::Keyboard::C){
-                  // C key pressed, start animation
-                  change = 1;
-                }
-                if(event.key.code == sf::Keyboard::P) {
-                    music.play();
-                }
+
                 break;
         }
     }
 }
 
+/*
+
+*/
 void application::updateScreen() {
-    dt = clock.restart();
-    duration += dt.asSeconds();
-
-    sf::Color taskbar_color(177, 186, 188);
-    rectangle.setFillColor(taskbar_color);
-
-    if (change == 1 && duration > 0.0001f){
-        x += 3.0f;
-        if (x != 800){
-            std::cout<< "went in "<< std::endl;
-            // Reset frame time and set new color for circle
-            duration = 0;
-            line[1] = sf::Vertex(sf::Vector2f(300,x));
-        } else {
-            // Stop animation
-            change = 0;
-        }
-    }
 }
 
+/*
+    renders the new graphics on the screen by clearing, then drawing graphics,
+    and displaying it
+*/
 void application::renderScreen() {
     window.clear(sf::Color::Black);
-    window.draw(line, 2, sf::Lines);
-    window.draw(rectangle);
     window.display();
 }
