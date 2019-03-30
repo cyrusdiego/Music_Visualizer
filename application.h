@@ -28,7 +28,7 @@ public:
 private:
     sf::RenderWindow window;
     sf::Event event;
-    bars music_bars;
+    barSpectrum music_bars;
 };
 
 #endif

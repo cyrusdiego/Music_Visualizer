@@ -18,17 +18,27 @@ application::application(const std::string title) {
 
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default, settings);
     window.setKeyRepeatEnabled(false);
-    music_bars = bars();
+
+    music_bars = barSpectrum((int)window.getSize().x,(int)window.getSize().y);
+    //***************************************************************************
+    sf::Color taskbar_color(177, 186, 188);
+    sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
+    rectangle.setFillColor(taskbar_color);
+    window.draw(rectangle);
+
+    //***************************************************************************
     windowSetup();
+
 }
 
 application::~application() {}
 
 void application::windowSetup() {
-    for(auto i = music_bars.begin(); i != music_bars.end(); i++){
-        window.draw(*i);
-        window.display();
+    for(int i = 0; i <  music_bars.getnumBars(); i ++){
+        window.draw(music_bars.getBar(i));
     }
+    window.display();
+
 }
 
 /*

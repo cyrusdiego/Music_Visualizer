@@ -9,30 +9,65 @@
 #include "bars.h"
 #include <iostream>
 
-bars::bars(){
+// Define frequency ranges
+#define SUBBASS 20
+#define BASS 60
+#define LOWMIDRANGE 250
+#define MIDRANGE 500
+#define UPMIDRANGE 2000
+#define PRESENCE 4000
+#define BRILLIANCE 6000
+#define MAXFREQ 20000
+
+barSpectrum::barSpectrum(){}
+
+barSpectrum::barSpectrum(int xWindow, int yWindow){
     sf::RectangleShape temp;
-    int x = 0;
+    numBars = floor(xWindow / 5) + 1;
+
+    // calcFreqRange();
+
+
+
+    float x = 0,step = 0;
     int r = 255, g = 30, b = 0;
-    for(int i = 0; i < 100; i++){
-        temp.setSize(sf::Vector2f(10.0f, 500.0f));
-        temp.setPosition(x,800);
-        sf::Color temp_color(r - i*2, g + i*2, b + i*2);
+    for(int i = 0; i < numBars; i++){
+        temp.setSize(sf::Vector2f(2.5f, 200.0f));
+        temp.setPosition(x,yWindow - 200.0f);
+        sf::Color temp_color(255,255,255);
         temp.setFillColor(temp_color);
-        barGraph.push_back(temp);
-        x += 20;
+        barGraph[i] = (temp);
+        step += freqStep;
+        x += 5.0;
     }
 }
 
-bars::~bars(){}
+barSpectrum::~barSpectrum(){}
 
-sf::RectangleShape bars::getBar(int i){
-    return barGraph.at(i);
+sf::RectangleShape barSpectrum::getBar(int i){
+    return barGraph[i];
 }
 
-std::vector<sf::RectangleShape>::const_iterator bars::begin(){
-    return barGraph.begin();
+int barSpectrum::getnumBars(){
+    return numBars;
 }
 
-std::vector<sf::RectangleShape>::const_iterator bars::end(){
-    return barGraph.end();
+int barSpectrum::getfreqStep(){
+    return freqStep;
 }
+
+// pair(num of Bars in that range , freqency step in that range)
+// void barSpectrum::calcFreqRange(){
+//     subBass = make_pair(
+//         ceil((BASS - SUBBASS) * numBars / MAXFREQ),
+//         (BASS - SUBBASS) / ceil((BASS - SUBBASS) * numBars / MAXFREQ)
+//     );
+//     bass = make_pair(
+//         ceil((BASS - SUBBASS) * numBars / MAXFREQ),
+//         (BASS - SUBBASS) / ceil((BASS - SUBBASS) * numBars / MAXFREQ)
+//     );
+// }
+
+// std::pair barSpectrum::getFreqRange(){
+//
+// }
