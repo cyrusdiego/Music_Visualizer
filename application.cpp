@@ -5,9 +5,8 @@
 
     application.cpp : implementation of the application class
 */
-#include "globals.h"
 #include "application.h"
-#include <iostream>
+
 /*
     constructor to launch the window and configures window properties
     @param : title of the window
@@ -16,7 +15,7 @@ application::application(const std::string title) {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
-    window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default, settings);
+    window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
 
     music_bars = barSpectrum((int)window.getSize().x,(int)window.getSize().y);
@@ -34,11 +33,12 @@ application::application(const std::string title) {
 application::~application() {}
 
 void application::windowSetup() {
-    for(int i = 0; i <  music_bars.getnumBars(); i ++){
-        window.draw(music_bars.getBar(i));
+    std::unordered_map<float,sf::RectangleShape>::iterator it;
+    for(it = music_bars.begin(); it != music_bars.end(); it++){
+        window.draw(it->second);
     }
-    window.display();
 
+    window.display();
 }
 
 /*
@@ -48,9 +48,8 @@ void application::windowSetup() {
 void application::run() {
     while(window.isOpen()) {
         processEvents();
-        // renderScreen();
         // updateScreen();
-
+        // renderScreen();
     }
 }
 

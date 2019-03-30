@@ -8,3 +8,6 @@
 
 # .wav
 *.wav
+
+# fonts
+*.ttf
