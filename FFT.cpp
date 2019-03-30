@@ -86,11 +86,6 @@ void IFFT(complex_vec& samples){
             samples.at(j) = sample_even.at(j) + (W * sample_odd.at(j));
             samples.at(j + N/2) = sample_even.at(j) - (W* sample_odd.at(j));
             W *= W_N;
-            if (thing == N) {
-                samples.at(j) = samples.at(j)/((double)N);
-                samples.at(j + N/2) = samples.at(j + N/2)/((double)N);
-
-            }
         }
 
     }
@@ -189,11 +184,12 @@ int main() {
         }
         thing = input.size();
         FFT(input);
-        std::transform (input.begin(), input.end(), input.begin(),conjugate);
-        IFFT(input);
-        for(auto i = input.begin(); i != input.end(); i++){
-            cout << real(*i) << endl;
-        }
+        
+        //std::transform (input.begin(), input.end(), input.begin(),conjugate);
+        // IFFT(input);
+        // for(auto i = input.begin(); i != input.end(); i++){
+        //     cout << real(*i) << endl;
+        // }
     }
     while (counter!=2);
     return 0;
