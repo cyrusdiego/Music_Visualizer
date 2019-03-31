@@ -29,6 +29,8 @@ private:
     sf::RenderWindow window;
     sf::Event event;
     barSpectrum music_bars;
+
+
 };
 
 #endif

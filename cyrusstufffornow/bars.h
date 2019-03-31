@@ -9,8 +9,6 @@
 #ifndef BARS_H
 #define BARS_H
 #include "globals.h"
-#include <unordered_map>
-#include <utility>
 
 /*
     application class that holds the window instantiating, keyboard input,
@@ -24,22 +22,16 @@ public:
 
     sf::RectangleShape getBar(int i);
     int getnumBars();
-    int getfreqStep();
-    // void calcFreqRange();
-    // std::pair getFreqRange();
-private:
-    std::unordered_map<int,sf::RectangleShape> barGraph;
-    int numBars;
-    int freqStep;
-    int startY;
-    std::pair<int,float> subBass, bass, lowMidRange, midRange, upMidRange, presence, brilliance;
-
-};
-
-class bar {
-public:
+    void calcColor(sf::RectangleShape &bar, float counter);
+    float mapFreq(float i);
+    std::unordered_map<float,sf::RectangleShape>::iterator begin();
+    std::unordered_map<float,sf::RectangleShape>::iterator end();
 
 private:
+    std::unordered_map<float,sf::RectangleShape> barGraph;
+    float numBars;
+    float MAXFREQ = 20000;
+
 
 };
 

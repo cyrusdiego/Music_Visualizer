@@ -11,9 +11,13 @@ int main(){
     bool running = true;
 
     float x = 300;
-    sf::Vertex line[] = {
+    sf::Vertex line1[] = {
         sf::Vertex(sf::Vector2f(300.0f, 600.0f)),
         sf::Vertex(sf::Vector2f(300.0f, 300.0f))
+    };
+    sf::Vertex line2[] = {
+        sf::Vertex(sf::Vector2f(600.0f, 600.0f)),
+        sf::Vertex(sf::Vector2f(600.0f, 300.0f))
     };
     int change = 0;
     float duration = float();
@@ -49,10 +53,10 @@ int main(){
             }
         }
 
-        // Taskbar
-        sf::Color taskbar_color(177, 186, 188);
-        sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
-        rectangle.setFillColor(taskbar_color);
+        // // Taskbar
+        // sf::Color taskbar_color(177, 186, 188);
+        // sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
+        // rectangle.setFillColor(taskbar_color);
 
         // //Play Button
         // sf::Color button_color(153,0,0);
@@ -73,11 +77,13 @@ int main(){
 
 
         if (change == 1 && duration > 0.0001f){
-          x += 3.0f;
+          x += 10.0f;
           if (x != 800){
             // Reset frame time and set new color for circle
             duration = 0;
-            line[1] = sf::Vertex(sf::Vector2f(300,x));
+            line1[1] = sf::Vertex(sf::Vector2f(300,x));
+            line2[1] = sf::Vertex(sf::Vector2f(600,x));
+
           } else {
             // Stop animation
             change = 0;
@@ -86,8 +92,10 @@ int main(){
 
         // //Draw the shapes
         window.clear(sf::Color::Black);
-        window.draw(line, 2, sf::Lines);
-        window.draw(rectangle);
+        window.draw(line1, 2, sf::Lines);
+        window.draw(line2, 2, sf::Lines);
+
+        // window.draw(rectangle);
         // window.draw(rect1);
         // window.draw(rect2);
         // window.draw(triangle);

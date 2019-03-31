@@ -23,7 +23,17 @@ musicProcessor::musicProcessor(std::string songName) {
         freqDomain.push_back(compSample);
     }
 }
-// musicProcessor::~musicProcessor(){
+
+musicProcessor::~musicProcessor(){}
+
+std::vector<complex_vec>::iterator musicProcessor::start(){
+    return freqDomain.begin();
+}
+std::vector<complex_vec>::iterator musicProcessor::finish() {
+    return freqDomain.end();
+}
+
+
 
 void musicProcessor::getLength(){
     double power = log2(samplerate);
