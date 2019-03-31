@@ -13,7 +13,6 @@ barSpectrum::barSpectrum(int xWindow, int yWindow){
     // calc max number of bars in window and the freuency ranges per bar
     // this is window / pc dependent will need to be calc every launch of application
     numBars = floor(xWindow / 5) + 1;
-    calcFreqRange();
 
     // temporary object used to store in barGraph
     sf::RectangleShape bar(sf::Vector2f(2.5f, 200.0f));
@@ -35,9 +34,6 @@ sf::RectangleShape barSpectrum::getBar(int i) {
     return barGraph[i];
 }
 
-int barSpectrum::count(float key){
-    return barGraph.count(key);
-}
 int barSpectrum::getnumBars(){
     return numBars;
 }
@@ -86,64 +82,3 @@ void barSpectrum::calcColor(sf::RectangleShape &bar, float counter) {
     sf::Color barColor(r,g,b);
     bar.setFillColor(barColor);
 }
-
-//pair(num of Bars in that range , freqency range for those bars)
-void barSpectrum::calcFreqRange() {
-    subBass = std::make_pair(
-        ceil((BASS - SUBBASS) * numBars / MAXFREQ),
-        std::make_pair(
-            SUBBASS,
-            (BASS - SUBBASS) / ceil((BASS - SUBBASS) * numBars / MAXFREQ))
-    );
-
-    bass = std::make_pair(
-        ceil((LOWMIDRANGE - BASS) * numBars / MAXFREQ),
-        std::make_pair(
-            BASS,
-            (LOWMIDRANGE - BASS) / ceil((LOWMIDRANGE - BASS) * numBars / MAXFREQ))
-    );
-
-    lowMidRange = std::make_pair(
-        ceil((MIDRANGE - LOWMIDRANGE) * numBars / MAXFREQ),
-        std::make_pair(
-            LOWMIDRANGE,
-            (MIDRANGE - LOWMIDRANGE) / ceil((MIDRANGE - LOWMIDRANGE) * numBars / MAXFREQ))
-    );
-
-    midRange = std::make_pair(
-        ceil((UPMIDRANGE - MIDRANGE) * numBars / MAXFREQ),
-        std::make_pair(
-            MIDRANGE,
-            (UPMIDRANGE - MIDRANGE) / ceil((UPMIDRANGE - MIDRANGE) * numBars / MAXFREQ))
-
-    );
-
-    upMidRange = std::make_pair(
-        ceil((PRESENCE - UPMIDRANGE) * numBars / MAXFREQ),
-        std::make_pair(
-            UPMIDRANGE,
-            (PRESENCE - UPMIDRANGE) / ceil((PRESENCE - UPMIDRANGE) * numBars / MAXFREQ))
-
-    );
-
-    presence = std::make_pair(
-        ceil((BRILLIANCE - PRESENCE) * numBars / MAXFREQ),
-        std::make_pair(
-            PRESENCE,
-            (BRILLIANCE - PRESENCE) / ceil((BRILLIANCE - PRESENCE) * numBars / MAXFREQ))
-
-    );
-
-    brilliance = std::make_pair(
-        ceil((MAXFREQ - BRILLIANCE) * numBars / MAXFREQ),
-        std::make_pair(
-            BRILLIANCE,
-            (MAXFREQ - BRILLIANCE) / ceil((MAXFREQ - BRILLIANCE) * numBars / MAXFREQ))
-
-    );
-
-}
-
-// std::pair barSpectrum::getFreqRange(){
-//
-// }

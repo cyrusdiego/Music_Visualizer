@@ -19,13 +19,12 @@ application::application(const std::string title) {
     window.setKeyRepeatEnabled(false);
 
     music_bars = barSpectrum((int)window.getSize().x,(int)window.getSize().y);
-    //***************************************************************************
+
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
     rectangle.setFillColor(taskbar_color);
     window.draw(rectangle);
 
-    //***************************************************************************
     windowSetup();
 
 }
@@ -66,6 +65,7 @@ void application::processEvents() {
             case sf::Event::KeyPressed:  // checks for keyboard input
                 if(event.key.code == sf::Keyboard::Q)  // closes window with "Q"
                     window.close();
+                if(event.key.code == sf::Keyboard::P)
 
                 break;
         }
