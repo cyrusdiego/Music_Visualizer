@@ -11,5 +11,6 @@ $(OBJ2): musicprocessor.h
 	$(VER) -c musicprocessor.cpp -o $(OBJ2)
 
 clean:
-		@rm -f $(OBJ)
+		@rm -f $(OBJ1)
+		@rm -f $(OBJ2)
 		@rm -f $(PROJECT)

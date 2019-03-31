@@ -28,6 +28,7 @@ void FFT(complex_vec& samples){
         return;  // figure out what to actually return
     }
     else{
+        //https://stackoverflow.com/questions/33787939/sort-vector-by-even-and-odd-indices-c
         stable_partition(begin(samples),end(samples),
                         [&samples](complex_num const& a){return 0==((&a-&samples[0])%2);});
 
@@ -162,35 +163,28 @@ string get_songchoice () {
 }
 
 int main() {
+    int counter = 0;
     sf::InputSoundFile file;
-    string song = get_songchoice();
+    //string song = get_songchoice();
 
-    if (!file.openFromFile(song));
+    if (!file.openFromFile("253011553368158.wav"));
 
     sf::Uint64 samplerate = file.getSampleRate();
     double power = log2(samplerate);
     sf::Uint64 rate = ((fmod(power,2.0) == 0.0) ? samplerate : pow(2,(int)power+1));
     sf::Int16 sample[rate] = {0};
     sf::Uint64 count;
-    int counter = 0;
-    do {
-        counter ++;
 
+    do {
         count = file.read(sample,samplerate);
+        sf::Sound sound;
         complex_vec input;
         for(sf::Uint64 i = 0; i < rate; i++){
             complex<double> temp((double)sample[i],0);
             input.push_back(temp);
         }
-        thing = input.size();
         FFT(input);
-        
-        //std::transform (input.begin(), input.end(), input.begin(),conjugate);
-        // IFFT(input);
-        // for(auto i = input.begin(); i != input.end(); i++){
-        //     cout << real(*i) << endl;
-        // }
     }
-    while (counter!=2);
+    while (count!=0);
     return 0;
 }
