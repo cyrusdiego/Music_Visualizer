@@ -1,24 +1,35 @@
+/*
+    NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
+    ID: 1528911 and
+    CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
+
+    bars.h : header file declaring bars class
+*/
+// threads: https://stackoverflow.com/questions/17472827/create-thread-inside-class-with-function-from-same-class
 #include "musicprocessor.h"
-#include <iostream>
+
 complex_num makeComp(sf::Int16 i) {
     complex_num temp (0,0);
     return temp+=(double)i;
 }
+
 musicProcessor::musicProcessor(){}
+
 musicProcessor::musicProcessor(std::string songName) {
     // load the song into the sound object
     if (!music.openFromFile(songName));
     if (!file.openFromFile(songName));
     samplerate = file.getSampleRate();
+    freqDomainItr = freqDomain.begin();
     // will make sure that the array has a a power of 2 number of elements
     getLength();
     int counter = 0;
     while (count > 0){
         sf::Int16 sample[sampleLength] = {0};
         count = file.read(sample,samplerate);
-        std::vector <sf::Int16> thing(sample,sample+sampleLength);
+        std::vector <sf::Int16> temp(sample,sample + sampleLength);
         complex_vec compSample(sampleLength);
-        std::transform(thing.begin(),thing.end(),compSample.begin(),makeComp);
+        std::transform(temp.begin(),temp.end(),compSample.begin(),makeComp);
         FFT(compSample);
         freqDomain.push_back(compSample);
     }
@@ -26,13 +37,14 @@ musicProcessor::musicProcessor(std::string songName) {
 
 musicProcessor::~musicProcessor(){}
 
-std::vector<complex_vec>::iterator musicProcessor::start(){
-    return freqDomain.begin();
-}
-std::vector<complex_vec>::iterator musicProcessor::finish() {
-    return freqDomain.end();
+void musicProcessor::play() {
+    music.play();
 }
 
+std::vector<complex_vec>::iterator musicProcessor::getIterator(){
+    return freqDomainItr;
+    freqDomainItr++;
+}
 
 
 void musicProcessor::getLength(){

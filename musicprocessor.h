@@ -13,7 +13,6 @@
 /* Music Processor class will run the fouring transform on the samples of them
 song
 */
-
 class musicProcessor {
 public:
     musicProcessor();
@@ -21,8 +20,9 @@ public:
     ~musicProcessor();
     void FFT(complex_vec &vec);
     void getLength();
-    std::vector<complex_vec>::iterator start();
-    std::vector<complex_vec>::iterator finish();
+    std::vector<complex_vec>::iterator getIterator();
+    void play();
+
 private:
     sf::InputSoundFile file;
     sf::Music music;
@@ -30,6 +30,7 @@ private:
     sf::Uint64 sampleLength;
     sf::Uint64 count;
     std::vector<complex_vec> freqDomain;
+    std::vector<complex_vec>::iterator freqDomainItr;
 
 };
 

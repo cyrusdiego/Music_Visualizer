@@ -82,34 +82,37 @@ void barSpectrum::calcColor(sf::RectangleShape &bar, float counter) {
     sf::Color barColor(r,g,b);
     bar.setFillColor(barColor);
 }
+// O(logn)
+double barSpectrum::findClosestFreq(double phase) {
+    double newPhase;
+    lowBound = barGraph.lower_bound(phase);
+    if (lowBound != barGraph.end()) {
+        upBound = barGraph.upper_bound(phase);
+
+        if(lowBound->first - phase <= upBound->first - phase) {
+            newPhase = lowBound->first;
+        } else {
+            newPhase = upBound->first;
+        }
+
+    } else {
+        newPhase = barGraph.end()->first;
+    }
+    return newPhase;
+}
+
+void barSpectrum::plotBars(double phase, double magnitude) {
+    if(barGraph[phase].getSize().y != magnitude) {
+        sf::RectangleShape bar(sf::Vector2f(2.5f, 200.0f - 10.0f));
+        barGraph[phase] = bar;
+    }
+}
 
 void barSpectrum::readFFT(complex_vec cmplxVector) {
     double phase, magnitude;
     for(auto i : cmplxVector) {
-        phase = std::arg(i);
+        phase = findClosestFreq(std::arg(i) / (2 * pi));
         magnitude = std::abs(i);
         plotBars(phase,magnitude);
     }
-}
-
-// O(logn)
-void barSpectrum::findClosestFreq(double *phase) {
-    lowBound = barGraph.lower_bound(*phase);
-    if (lowBound != barGraph.end()) {
-        upBound = barGraph.upper_bound(*phase);
-
-        if(lowBound->first - *phase <= upBound->first - *phase) {
-            *phase = lowBound->first;
-        } else {
-            *phase = upBound->first;
-        }
-
-    } else {
-        *phase = barGraph.end()->first;
-    }
-}
-
-sf::RectangleShape barSpectrum::plotBars(double phase, double magnitude) {
-    findClosestFreq(&phase);
-    return barGraph[phase];
 }

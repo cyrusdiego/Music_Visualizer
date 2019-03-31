@@ -10,6 +10,7 @@
 #define APPLICATION_H
 #include "globals.h"
 #include "bars.h"
+#include "musicprocessor.h"
 /*
     application class that holds the window instantiating, keyboard input,
     and the application running
@@ -28,7 +29,11 @@ public:
 private:
     sf::RenderWindow window;
     sf::Event event;
+    sf::Clock clock;
     barSpectrum music_bars;
+    musicProcessor *song;
+    std::map<float,sf::RectangleShape>::iterator mapItr;
+    bool ready = false;
     sf::Time dt;
     float duration = float(); // SFML Documentation (cite)
 

@@ -19,7 +19,6 @@ application::application(const std::string title) {
     window.setKeyRepeatEnabled(false);
 
     music_bars = barSpectrum((int)window.getSize().x,(int)window.getSize().y);
-
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
     rectangle.setFillColor(taskbar_color);
@@ -32,11 +31,9 @@ application::application(const std::string title) {
 application::~application() {}
 
 void application::windowSetup() {
-    std::map<float,sf::RectangleShape>::iterator it;
-    for(it = music_bars.start(); it != music_bars.last(); it++){
-        window.draw(it->second);
+    for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++){
+        window.draw(mapItr->second);
     }
-
     window.display();
 }
 
@@ -47,8 +44,10 @@ void application::windowSetup() {
 void application::run() {
     while(window.isOpen()) {
         processEvents();
-        // updateScreen();
-        // renderScreen();
+        if(ready) {
+            updateScreen();
+            renderScreen();
+        }
     }
 }
 
@@ -60,14 +59,26 @@ void application::processEvents() {
         switch(event.type){
             case sf::Event::Closed:  // closes window
                 window.close();
-                break;
-
+            break;
             case sf::Event::KeyPressed:  // checks for keyboard input
+
                 if(event.key.code == sf::Keyboard::Q)  // closes window with "Q"
                     window.close();
-                if(event.key.code == sf::Keyboard::P)
+                if(event.key.code == sf::Keyboard::P) {
+                    if(ready){
+                        song->play();
+                    } else {
+                        std::cout << "error: no song loaded\n";
+                    }
+                }
+                if(event.key.code == sf::Keyboard::F) {
+                    std::cout << "performing FFT now\n";
+                    song = new musicProcessor("The_Beatles_-_Come_Together-45cYwDMibGo.wav");
+                    std::cout << "done FFT\n";
+                    ready = true;
+                }
 
-                break;
+            break;
         }
     }
 }
@@ -76,6 +87,17 @@ void application::processEvents() {
 
 */
 void application::updateScreen() {
+    dt = clock.restart();
+    duration += dt.asSeconds();
+    if(ready) {
+        std::vector<complex_vec>::iterator currentSample = song->getIterator();
+        if(duration > 0.001f) {
+            music_bars.readFFT(*currentSample);
+            for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
+                window.draw(mapItr->second);
+            }
+        }
+    }
 }
 
 /*

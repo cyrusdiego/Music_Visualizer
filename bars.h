@@ -27,9 +27,10 @@ public:
     std::map<float,sf::RectangleShape>::iterator start();
     std::map<float,sf::RectangleShape>::iterator last();
 
+    void plotBars(double phase, double magnitude);
+    double findClosestFreq(double phase);
     void readFFT(complex_vec cmplxVector);
-    sf::RectangleShape plotBars(double phase, double magnitude);
-    void findClosestFreq(double *phase);
+
 
 private:
     std::map<float,sf::RectangleShape> barGraph;
