@@ -1,6 +1,7 @@
 #include "musicprocessor.h"
 #include <iostream>
 #include <thread>
+#include <typeinfo>
 complex_num makeComp(sf::Int16 i) {
     complex_num temp (0,0);
     return temp+=(double)i;
@@ -23,13 +24,8 @@ musicProcessor::musicProcessor(std::string songName) {
     first.join();
     freqDomain.insert (freqDomain.begin(),freqOne.begin(),freqOne.end());
     freqDomain.insert(freqDomain.end(),freqTwo.begin(),freqTwo.end());
-    auto z = freqDomain.begin();
-    for (auto i = z->begin(); i!= z->end(); i++){
-        std::cout << arg(*i)/(2*pi) << " "<< abs(*i) << std::endl;
-    }
-
-
 }
+
 void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     int counter = 0;
     sf::Uint64 count;
@@ -46,7 +42,7 @@ void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
 }
 
 void musicProcessor::secondHalf(std::vector<complex_vec> &vec){
-    file2.seek(file.getSampleCount()/2);
+    file2.seek(halfSample*samplerate);
     int counter = 0;
     sf::Uint64 count;
     while (count > 0){
