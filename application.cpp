@@ -73,7 +73,7 @@ void application::processEvents() {
                 }
                 if(event.key.code == sf::Keyboard::F) {
                     std::cout << "performing FFT now\n";
-                    song = new musicProcessor("The_Beatles_-_Come_Together-45cYwDMibGo.wav");
+                    song = new musicProcessor("253011553368158.wav");
                     std::cout << "done FFT\n";
                     ready = true;
                 }
@@ -89,15 +89,17 @@ void application::processEvents() {
 void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
-    if(ready) {
-        std::vector<complex_vec>::iterator currentSample = song->getIterator();
-        if(duration > 0.001f) {
-            music_bars.readFFT(*currentSample);
-            for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
-                window.draw(mapItr->second);
-            }
+    std::cout << "getting Iterator for song\n";
+    std::vector<complex_vec>::iterator currentSample = song->getIterator();
+    std::cout << "got Iterator for song\n";
+    if(duration > 0.001f) {
+        std::cout << "inside if statement\n";
+        music_bars.readFFT(currentSample);
+        for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
+            window.draw(mapItr->second);
         }
     }
+
 }
 
 /*

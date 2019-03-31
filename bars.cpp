@@ -110,11 +110,12 @@ void barSpectrum::plotBars(double phase, double magnitude) {
     }
 }
 
-void barSpectrum::readFFT(complex_vec cmplxVector) {
+void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector) {
+    std::cout << "got inside readFFT\n";
     double phase, magnitude;
-    for(auto i : cmplxVector) {
-        phase = findClosestFreq(std::arg(i) / (2 * pi));
-        magnitude = std::abs(i);
+    for(auto i = cmplxVector->begin(); i != cmplxVector->end(); i++) {
+        phase = findClosestFreq(std::arg(*i) / (2 * pi));
+        magnitude = std::abs(*i);
         plotBars(phase,magnitude);
     }
 }

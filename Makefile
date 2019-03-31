@@ -1,4 +1,4 @@
-VER = g++ -std=c++11
+VER = g++ -std=c++11 -pthread
 OBJ1 = main.o
 OBJ2 = app.o
 OBJ3 = bar.o

@@ -22,8 +22,6 @@ public:
     void getLength();
     std::vector<complex_vec>::iterator getIterator();
     void play();
-    std::vector<complex_vec>::iterator start();
-    std::vector<complex_vec>::iterator finish();
     void firstHalf(std::vector<complex_vec> &vec);
     void secondHalf(std::vector<complex_vec> &vec);
 
@@ -34,7 +32,7 @@ private:
     sf::Uint64 samplerate;
     sf::Uint64 sampleLength;
     std::vector<complex_vec> freqDomain;
-    std::vector<complex_vec>::iterator freqDomainItr;
+    std::vector<complex_vec>::iterator freqDomainItr = freqDomain.begin();
 
     sf::Uint64 halfSample;
 };

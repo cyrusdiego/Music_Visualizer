@@ -29,7 +29,7 @@ public:
 
     void plotBars(double phase, double magnitude);
     double findClosestFreq(double phase);
-    void readFFT(complex_vec cmplxVector);
+    void readFFT(std::vector<complex_vec>::iterator cmplxVector);
 
 
 private:
