@@ -32,7 +32,6 @@ private:
     float numBars;
     float MAXFREQ = 20000;
 
-
 };
 
 #endif
