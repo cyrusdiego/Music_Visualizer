@@ -18,11 +18,11 @@ class musicProcessor {
 public:
     musicProcessor();
     musicProcessor(std::string songName);
-    // ~musicProcessor();
+    ~musicProcessor();
     void FFT(complex_vec &vec);
     void getLength();
-    //complex_num makeComp(sf::Int16 i);
-
+    std::vector<complex_vec>::iterator start();
+    std::vector<complex_vec>::iterator finish();
 private:
     sf::InputSoundFile file;
     sf::Music music;
