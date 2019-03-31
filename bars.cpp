@@ -86,6 +86,8 @@ void barSpectrum::calcColor(sf::RectangleShape &bar, float counter) {
 double barSpectrum::findClosestFreq(double phase) {
     double newPhase;
     lowBound = barGraph.lower_bound(phase);
+    if(phase < 0)
+        return barGraph.begin()->first;
     if (lowBound != barGraph.end()) {
         upBound = barGraph.upper_bound(phase);
 
