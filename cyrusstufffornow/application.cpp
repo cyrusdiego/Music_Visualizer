@@ -32,8 +32,8 @@ application::application(const std::string title) {
 application::~application() {}
 
 void application::windowSetup() {
-    std::map<float,sf::RectangleShape>::iterator it;
-    for(it = music_bars.start(); it != music_bars.last(); it++){
+    std::unordered_map<float,sf::RectangleShape>::iterator it;
+    for(it = music_bars.begin(); it != music_bars.end(); it++){
         window.draw(it->second);
     }
 

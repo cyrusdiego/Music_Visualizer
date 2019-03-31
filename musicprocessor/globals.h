@@ -15,14 +15,15 @@
 #include <cassert>
 #include <cmath>  // for log2
 #include <math.h>
-#include <iostream>
+#include <iostream>  // for cout
 #include <vector>
 #include <complex>
 #include <algorithm>
 #include <fstream>
-#include <map>
 const double pi = 3.141592653589793238460;
-typedef std::complex <double> complex_num;
-typedef std::vector <complex_num> complex_vec;
+typedef std::complex<double> complex_num;
+typedef std::vector<complex_num> complex_vec;
+
+
 
 #endif

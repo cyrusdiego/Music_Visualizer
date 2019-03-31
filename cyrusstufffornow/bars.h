@@ -24,17 +24,11 @@ public:
     int getnumBars();
     void calcColor(sf::RectangleShape &bar, float counter);
     float mapFreq(float i);
-    std::map<float,sf::RectangleShape>::iterator start();
-    std::map<float,sf::RectangleShape>::iterator last();
-
-    void readFFT(complex_vec cmplxVector);
-    sf::RectangleShape plotBars(double phase, double magnitude);
-    void findClosestFreq(double *phase);
+    std::unordered_map<float,sf::RectangleShape>::iterator begin();
+    std::unordered_map<float,sf::RectangleShape>::iterator end();
 
 private:
-    std::map<float,sf::RectangleShape> barGraph;
-    std::map<float,sf::RectangleShape>::const_iterator lowBound,upBound;
-
+    std::unordered_map<float,sf::RectangleShape> barGraph;
     float numBars;
     float MAXFREQ = 20000;
 

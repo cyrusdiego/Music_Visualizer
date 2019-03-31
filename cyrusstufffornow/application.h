@@ -29,8 +29,7 @@ private:
     sf::RenderWindow window;
     sf::Event event;
     barSpectrum music_bars;
-    sf::Time dt;
-    float duration = float(); // SFML Documentation (cite)
+
 
 };
 
