@@ -1,4 +1,4 @@
-VER = g++ -std=c++11
+VER = g++ -std=c++11 -pthread
 OBJ1 = test.o
 OBJ2 = music.o
 PROJECT = test
