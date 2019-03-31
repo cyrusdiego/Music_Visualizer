@@ -23,14 +23,17 @@ public:
     void getLength();
     std::vector<complex_vec>::iterator start();
     std::vector<complex_vec>::iterator finish();
+    void firstHalf(std::vector<complex_vec> &vec);
+    void secondHalf(std::vector<complex_vec> &vec);
+
 private:
     sf::InputSoundFile file;
+    sf::InputSoundFile file2;
     sf::Music music;
     sf::Uint64 samplerate;
     sf::Uint64 sampleLength;
-    sf::Uint64 count;
     std::vector<complex_vec> freqDomain;
-
+    sf::Uint64 halfSample;
 };
 
 
