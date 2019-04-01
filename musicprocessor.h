@@ -32,7 +32,7 @@ private:
     sf::Uint64 samplerate;
     sf::Uint64 sampleLength;
     std::vector<complex_vec> freqDomain;
-    std::vector<complex_vec>::iterator freqDomainItr = freqDomain.begin();
+    std::vector<complex_vec>::iterator freqDomainItr;
 
     sf::Uint64 halfSample;
 };

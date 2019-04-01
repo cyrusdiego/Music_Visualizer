@@ -19,12 +19,13 @@ class application {
 public:
     application(const std::string title);
     ~application();
-
     void run();
     void processEvents();
     void updateScreen();
     void renderScreen();
     void windowSetup();
+    void animationBarIncrease();
+    void animationBarRestore();
 
 private:
     sf::RenderWindow window;
@@ -36,6 +37,7 @@ private:
     bool ready = false;
     sf::Time dt;
     float duration = float(); // SFML Documentation (cite)
+    sf::RectangleShape taskbar;
 
 };
 

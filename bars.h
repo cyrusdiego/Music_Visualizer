@@ -27,17 +27,24 @@ public:
     std::map<float,sf::RectangleShape>::iterator start();
     std::map<float,sf::RectangleShape>::iterator last();
 
-    void plotBars(double phase, double magnitude);
+    bool plotBars();
     double findClosestFreq(double phase);
     void readFFT(std::vector<complex_vec>::iterator cmplxVector);
+    double mapMagnitude(double magnitude);
+    double increaseHeight(double magnitude);
+    void clearSampleMap();
+    bool restoreBars();
+    double decreaseHeight(double magnitude);
 
 
 private:
     std::map<float,sf::RectangleShape> barGraph;
     std::map<float,sf::RectangleShape>::const_iterator lowBound,upBound;
-
+    float changeBar = 0.0f;
     float numBars;
-    float MAXFREQ = 20000;
+    float MAXFREQ = 4000, MINFREQ = 20;
+    int yWindowDim;
+    std::map<double,float> sample;
 
 };
 

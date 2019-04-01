@@ -23,7 +23,6 @@ musicProcessor::musicProcessor(std::string songName) {
     if (!file.openFromFile(songName));
     if (!file2.openFromFile(songName));
     samplerate = file.getSampleRate();
-    freqDomainItr = freqDomain.begin();
     sf::Uint64 numSamples = file.getSampleCount();
     halfSample = (numSamples/(samplerate*2));
     // will make sure that the array has a a power of 2 number of elements
@@ -33,10 +32,8 @@ musicProcessor::musicProcessor(std::string songName) {
     first.join();
     freqDomain.insert (freqDomain.begin(),freqOne.begin(),freqOne.end());
     freqDomain.insert(freqDomain.end(),freqTwo.begin(),freqTwo.end());
-    auto z = freqDomain.begin();
-    for (auto i = z->begin(); i!= z->end(); i++){
-        std::cout << arg(*i)/(2*pi) << " "<< abs(*i) << std::endl;
-    }
+    freqDomainItr = freqDomain.begin();
+
 
 
 }
@@ -77,8 +74,8 @@ void musicProcessor::play() {
 }
 
 std::vector<complex_vec>::iterator musicProcessor::getIterator(){
-    return freqDomainItr;
     freqDomainItr++;
+    return --freqDomainItr;
 }
 
 

@@ -22,7 +22,8 @@ application::application(const std::string title) {
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
     rectangle.setFillColor(taskbar_color);
-    window.draw(rectangle);
+    taskbar = rectangle;
+    window.draw(taskbar);
 
     windowSetup();
 
@@ -46,7 +47,7 @@ void application::run() {
         processEvents();
         if(ready) {
             updateScreen();
-            renderScreen();
+            //renderScreen();
         }
     }
 }
@@ -83,23 +84,50 @@ void application::processEvents() {
     }
 }
 
+void application::animationBarIncrease() {
+    bool flag = true;
+    while(flag){
+        flag = music_bars.plotBars();
+        //std::cout << "out of plotBars()\n";
+        window.clear(sf::Color::Black);
+
+        for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
+            std::cout << mapItr->first << " " << mapItr->second.getSize().y << "\n";
+
+            window.draw(mapItr->second);
+        }
+        window.display();
+
+    }
+
+}
+
+void application::animationBarRestore(){
+    bool flag = true;
+    while(flag){
+        flag = music_bars.restoreBars();
+        window.clear(sf::Color::Black);
+        duration = 0;
+        for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
+            window.draw(mapItr->second);
+        }
+        window.display();
+    }
+}
+
 /*
 
 */
 void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
-    std::cout << "getting Iterator for song\n";
+    music_bars.clearSampleMap();
     std::vector<complex_vec>::iterator currentSample = song->getIterator();
-    std::cout << "got Iterator for song\n";
-    if(duration > 0.001f) {
-        std::cout << "inside if statement\n";
+    if(duration > 0.01f) {
         music_bars.readFFT(currentSample);
-        for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
-            window.draw(mapItr->second);
-        }
+        animationBarIncrease();
+        //animationBarRestore();
     }
-
 }
 
 /*
@@ -107,6 +135,6 @@ void application::updateScreen() {
     and displaying it
 */
 void application::renderScreen() {
-    window.clear(sf::Color::Black);
+    window.draw(taskbar);
     window.display();
 }
