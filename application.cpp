@@ -18,6 +18,7 @@ application::application(const std::string title) {
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
 
+
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
     rectangle.setFillColor(taskbar_color);
@@ -34,15 +35,11 @@ void application::run() {
     while(window.isOpen()) {
         processEvents();
         if(FFTRefresh) {
+            flag = false;
             getNextSample();
         }
         updateScreen();
-        if(FFTRefresh){
-            renderScreen();
-
-        }
-        window.display();
-
+        renderScreen();
 
     }
 }
@@ -71,7 +68,6 @@ void application::processEvents() {
                     std::cout << "performing FFT now\n";
                     song = new musicProcessor("253011553368158.wav");
                     std::cout << "done FFT\n";
-                    // temp = song->getIterator();
                     music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq());
                     FFTDone = true;
                     FFTRefresh = true;
@@ -90,6 +86,7 @@ void application::getNextSample() {
         std::cout << "currentSample = song->last()\n";
         FFTRefresh = false;
     } else {
+        std::cout << "reading FFT\n";
         music_bars->readFFT(currentSample,song->getSampleRate(),song->getLength());
     }
 }
@@ -99,7 +96,16 @@ void application::updateScreen() {
     duration += dt.asSeconds();
 
     if(FFTDone && duration > 0.01f) {
+        // std::cout << "inside\n";
+        duration = 0;
         FFTRefresh = music_bars->plotBars();
+        if(!FFTRefresh) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        // std::cout << "done\n";
+
     }
 }
 
@@ -109,14 +115,13 @@ void application::updateScreen() {
 */
 void application::renderScreen() {
     window.clear(sf::Color::Black);
+
     window.draw(taskbar);
     if(flag) {
         for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
             window.draw(mapItr->second);
-
         }
     }
-    // dontRefresh = false;
-
+    window.display();
 
 }
