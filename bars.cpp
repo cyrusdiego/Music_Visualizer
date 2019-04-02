@@ -179,5 +179,5 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector) {
         magnitude = std::log10(std::abs(*i));
         sample[phase] = (float)mapMagnitude(magnitude);
     }
-    std::cout << "size of sample map: " << sample.size() << "\n";
+    //std::cout << "size of sample map: " << sample.size() << "\n";
 }

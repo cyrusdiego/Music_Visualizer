@@ -25,7 +25,6 @@ public:
     void renderScreen();
     void windowSetup();
     void animationBarIncrease();
-    void animationBarRestore();
 
 private:
     sf::RenderWindow window;
@@ -38,6 +37,8 @@ private:
     sf::Time dt;
     float duration = float(); // SFML Documentation (cite)
     sf::RectangleShape taskbar;
+
+
 
 };
 

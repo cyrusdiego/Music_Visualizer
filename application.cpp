@@ -19,11 +19,7 @@ application::application(const std::string title) {
     window.setKeyRepeatEnabled(false);
 
     music_bars = barSpectrum((int)window.getSize().x,(int)window.getSize().y);
-    sf::Color taskbar_color(177, 186, 188);
-    sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
-    rectangle.setFillColor(taskbar_color);
-    taskbar = rectangle;
-    window.draw(taskbar);
+
 
     windowSetup();
 
@@ -32,6 +28,12 @@ application::application(const std::string title) {
 application::~application() {}
 
 void application::windowSetup() {
+    sf::Color taskbar_color(177, 186, 188);
+    sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
+    rectangle.setFillColor(taskbar_color);
+    taskbar = rectangle;
+    window.draw(taskbar);
+
     for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++){
         window.draw(mapItr->second);
     }
@@ -47,6 +49,9 @@ void application::run() {
         processEvents();
         if(ready) {
             updateScreen();
+            while(true){
+                //std::cout << "stuck in while\n";
+            }
             //renderScreen();
         }
     }
@@ -88,31 +93,14 @@ void application::animationBarIncrease() {
     bool flag = true;
     while(flag){
         flag = music_bars.plotBars();
-        //std::cout << "out of plotBars()\n";
-        window.clear(sf::Color::Black);
-
-        for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
-            std::cout << mapItr->first << " " << mapItr->second.getSize().y << "\n";
-
-            window.draw(mapItr->second);
-        }
-        window.display();
-
-    }
-
-}
-
-void application::animationBarRestore(){
-    bool flag = true;
-    while(flag){
-        flag = music_bars.restoreBars();
-        window.clear(sf::Color::Black);
         duration = 0;
+        window.clear(sf::Color::Black);
         for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
             window.draw(mapItr->second);
         }
         window.display();
     }
+
 }
 
 /*
@@ -121,12 +109,11 @@ void application::animationBarRestore(){
 void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
-    music_bars.clearSampleMap();
+    //music_bars.clearSampleMap();
     std::vector<complex_vec>::iterator currentSample = song->getIterator();
+    music_bars.readFFT(currentSample);
     if(duration > 0.01f) {
-        music_bars.readFFT(currentSample);
         animationBarIncrease();
-        //animationBarRestore();
     }
 }
 
