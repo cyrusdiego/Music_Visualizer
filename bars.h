@@ -29,7 +29,7 @@ public:
 
     bool plotBars();
     double findClosestFreq(double phase);
-    void readFFT(std::vector<complex_vec>::iterator cmplxVector);
+    void readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uint64 sampleRate, sf::Uint64 length);
     double mapMagnitude(double magnitude);
     double increaseHeight(double magnitude);
     void clearSampleMap();

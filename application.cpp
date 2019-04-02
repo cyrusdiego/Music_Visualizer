@@ -18,7 +18,6 @@ application::application(const std::string title) {
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
 
-
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
     rectangle.setFillColor(taskbar_color);
@@ -38,7 +37,12 @@ void application::run() {
             getNextSample();
         }
         updateScreen();
-        renderScreen();
+        if(FFTRefresh){
+            renderScreen();
+
+        }
+        window.display();
+
 
     }
 }
@@ -81,14 +85,12 @@ void application::processEvents() {
 
 void application::getNextSample() {
     currentSample = song->getIterator();
-    // if(temp == currentSample) {
-    //     std::cout << "the same \n";
-    // }
+
     if(currentSample == song->last()){
         std::cout << "currentSample = song->last()\n";
         FFTRefresh = false;
     } else {
-        music_bars->readFFT(currentSample);
+        music_bars->readFFT(currentSample,song->getSampleRate(),song->getLength());
     }
 }
 
@@ -96,7 +98,7 @@ void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
 
-    if(FFTDone && duration > 0.1f) {
+    if(FFTDone && duration > 0.01f) {
         FFTRefresh = music_bars->plotBars();
     }
 }
@@ -111,11 +113,10 @@ void application::renderScreen() {
     if(flag) {
         for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
             window.draw(mapItr->second);
-            // if(mapItr->second.getSize().y != 200){
-            //     // std::cout << "freq: " << mapItr->first << " mag: " << mapItr->second.getSize().y << "\n";
-            // }
+
         }
     }
+    // dontRefresh = false;
 
-    window.display();
+
 }

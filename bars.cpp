@@ -19,6 +19,7 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> extre
     int x = 0;
     MAXFREQ = extremes.second; MINFREQ = extremes.first;
     std::cout << MAXFREQ << " " << MINFREQ << "\n";
+
     for(float i = 1; i < numBars + 1; i++){
         // shifts position and sets color
         bar.setPosition(x, yWindow);
@@ -26,6 +27,7 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> extre
 
         // stores bar into unordered_map with respective freqency
         barGraph[mapFreq(i)] = bar;
+        // std::cout << mapFreq(i) << "\n";
         x += 5.0;
     }
 }
@@ -93,6 +95,7 @@ void barSpectrum::clearSampleMap(){
 double barSpectrum::findClosestFreq(double phase) {
     double newPhase;
     if(phase < 0) {
+        // std::cout << "phase < 0\n";
         return barGraph.begin()->first;
     } else {
         lowBound = barGraph.lower_bound(phase);
@@ -108,6 +111,8 @@ double barSpectrum::findClosestFreq(double phase) {
         } else {
             newPhase = barGraph.rbegin()->first;
         }
+        // std::cout << "phase >= 0: " << newPhase << "\n";
+
         return newPhase;
     }
 
@@ -115,7 +120,7 @@ double barSpectrum::findClosestFreq(double phase) {
 }
 
 double barSpectrum::mapMagnitude(double magnitude) {
-    return (((magnitude)/ (MAXFREQ - MINFREQ)) * (-1 * (yWindowDim - 200.0f))) + (yWindowDim - 200.0f);
+    return ((magnitude)/ (7)) * (50.0f - (yWindowDim - 200.0f));
 }
 
 double barSpectrum::increaseHeight(double magnitude) {
@@ -134,28 +139,36 @@ bool barSpectrum::plotBars() {
     float newHeight;
     for(auto i : sample) {
          newHeight = increaseHeight(i.second);
-         if(newHeight > (i.second)) {
+         if(newHeight > (i.second)) { // dont change this im pre sure is correct lol
              haltGrowth = false;
          } else {
              haltGrowth = true;
          }
-         std::cout << newHeight << "\n";
-         barGraph[i.first].setSize(sf::Vector2f(2.5f, -newHeight));
+         // std::cout << newHeight << "\n";
+         barGraph[i.first].setSize(sf::Vector2f(2.5f, newHeight));
          // std::cout << "i.first = " << i.first << " barGraph[i.first].getSize().y: " << barGraph[i.first].getSize().y << "\n";
          // std::cout << "i.first = " << i.first << " barGraph[i.first].getPosition().y: " << barGraph[i.first].getPosition().y << "\n";
          // std::cout << "origin: " << barGraph[i.first].getOrigin().x << ", " << barGraph[i.first].getOrigin().y << "\n";
     }
-    changeBar += 10.0f;
+    changeBar += 0.25f;
     return haltGrowth;
 }
 
-void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector) {
-    double phase, magnitude;
+void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uint64 sampleRate, sf::Uint64 length) {
+    double j = 0;
+    double freq,magnitude;
     changeBar = 0.0f;
     for(std::vector<complex_num>::iterator i = cmplxVector->begin();
                                         i != cmplxVector->end(); i++) {
-        phase = findClosestFreq(std::arg(*i) / (2 * pi));
+        freq = (j * (double)sampleRate) / (double)length;
+        // std::cout << "freq: " << freq << " j: " << j << "\n";
         magnitude = std::log10(std::abs(*i));
-        sample[phase] = (float)mapMagnitude(magnitude);
+        // std::cout << magnitude << "\n";
+        sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
+        j++;
+        if(j == ((length /2 ) - 1)) {
+            break;
+        }
+        // std::cout << sample.size() << "\n";
     }
 }
