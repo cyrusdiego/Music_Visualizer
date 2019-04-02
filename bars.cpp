@@ -130,7 +130,6 @@ double barSpectrum::increaseHeight(double magnitude) {
 bool barSpectrum::plotBars() {
     bool haltGrowth = true;
     float newHeight;
-    sf::RectangleShape bar;
     for(auto i : sample) {
         changeBar += 15.0f;
          newHeight = increaseHeight(i.second);
@@ -139,10 +138,7 @@ bool barSpectrum::plotBars() {
          } else {
              haltGrowth = true;
          }
-         bar.setSize(sf::Vector2f(2.5f, newHeight));
-         bar.setPosition(x, yWindow - 200.0f);
-
-         barGraph[i.first] = bar;
+         barGraph[i.first].setSize(sf::Vector2f(2.5f, newHeight));
          std::cout << "i.first = " << i.first << " barGraph[i.first].getSize().y: " << barGraph[i.first].getSize().y << "\n";
          std::cout << "i.first = " << i.first << " barGraph[i.first].getPosition().y: " << barGraph[i.first].getPosition().y << "\n";
 

@@ -88,7 +88,7 @@ void application::updateScreen() {
 
     if(FFTDone && duration > 0.01f) {
         FFTRefresh = music_bars->plotBars();
-        FFTRefresh = false;
+        //FFTRefresh = false;
     }
 }
 
@@ -101,6 +101,9 @@ void application::renderScreen() {
     window.draw(taskbar);
     for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
         window.draw(mapItr->second);
+        if(mapItr->second.getSize().y != 200){
+            std::cout << "freq: " << mapItr->first << " mag: " << mapItr->second.getSize().y << "\n";
+        }
     }
     window.display();
 }
