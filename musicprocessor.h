@@ -21,9 +21,11 @@ public:
     void FFT(complex_vec &vec);
     void getLength();
     std::vector<complex_vec>::iterator getIterator();
+    std::vector<complex_vec>::iterator last();
     void play();
     void firstHalf(std::vector<complex_vec> &vec);
     void secondHalf(std::vector<complex_vec> &vec);
+    std::pair <double,double> getMaxMinFreq();
 
 private:
     sf::InputSoundFile file;
@@ -33,6 +35,8 @@ private:
     sf::Uint64 sampleLength;
     std::vector<complex_vec> freqDomain;
     std::vector<complex_vec>::iterator freqDomainItr;
+    double max;
+    double min;
 
     sf::Uint64 halfSample;
 };

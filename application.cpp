@@ -18,7 +18,6 @@ application::application(const std::string title) {
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
 
-    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y);
 
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
@@ -68,8 +67,11 @@ void application::processEvents() {
                     std::cout << "performing FFT now\n";
                     song = new musicProcessor("253011553368158.wav");
                     std::cout << "done FFT\n";
+                    // temp = song->getIterator();
+                    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq());
                     FFTDone = true;
                     FFTRefresh = true;
+                    flag = true;
                 }
 
             break;
@@ -79,16 +81,23 @@ void application::processEvents() {
 
 void application::getNextSample() {
     currentSample = song->getIterator();
-    music_bars->readFFT(currentSample);
+    // if(temp == currentSample) {
+    //     std::cout << "the same \n";
+    // }
+    if(currentSample == song->last()){
+        std::cout << "currentSample = song->last()\n";
+        FFTRefresh = false;
+    } else {
+        music_bars->readFFT(currentSample);
+    }
 }
 
 void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
 
-    if(FFTDone && duration > 0.01f) {
+    if(FFTDone && duration > 0.1f) {
         FFTRefresh = music_bars->plotBars();
-        //FFTRefresh = false;
     }
 }
 
@@ -99,11 +108,14 @@ void application::updateScreen() {
 void application::renderScreen() {
     window.clear(sf::Color::Black);
     window.draw(taskbar);
-    for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
-        window.draw(mapItr->second);
-        if(mapItr->second.getSize().y != 200){
-            std::cout << "freq: " << mapItr->first << " mag: " << mapItr->second.getSize().y << "\n";
+    if(flag) {
+        for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
+            window.draw(mapItr->second);
+            // if(mapItr->second.getSize().y != 200){
+            //     // std::cout << "freq: " << mapItr->first << " mag: " << mapItr->second.getSize().y << "\n";
+            // }
         }
     }
+
     window.display();
 }

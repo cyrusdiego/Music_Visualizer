@@ -17,7 +17,7 @@
 class barSpectrum {
 public:
     barSpectrum();
-    barSpectrum(int xWindow, int yWindow);
+    barSpectrum(int xWindow, int yWindow,std::pair<double,double> extremes);
     ~barSpectrum();
 
     sf::RectangleShape getBar(int i);
@@ -40,7 +40,7 @@ private:
     std::map<float,sf::RectangleShape>::const_iterator lowBound,upBound;
     float changeBar = 0.0f;
     float numBars;
-    float MAXFREQ = 4000, MINFREQ = 20;
+    float MAXFREQ, MINFREQ;
     int yWindowDim;
     std::map<double,float> sample;
 

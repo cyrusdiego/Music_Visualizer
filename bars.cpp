@@ -9,17 +9,19 @@
 
 barSpectrum::barSpectrum(){}
 
-barSpectrum::barSpectrum(int xWindow, int yWindow){
+barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> extremes){
     // calc max number of bars in window and the freuency ranges per bar
     // this is window / pc dependent will need to be calc every launch of application
     numBars = floor(xWindow / 5) + 1;
     yWindowDim = yWindow;
     // temporary object used to store in barGraph
-    sf::RectangleShape bar(sf::Vector2f(2.5f, 200.0f));
+    sf::RectangleShape bar(sf::Vector2f(2.5f, -200.0f));
     int x = 0;
+    MAXFREQ = extremes.second; MINFREQ = extremes.first;
+    std::cout << MAXFREQ << " " << MINFREQ << "\n";
     for(float i = 1; i < numBars + 1; i++){
         // shifts position and sets color
-        bar.setPosition(x, yWindow - 200.0f);
+        bar.setPosition(x, yWindow);
         calcColor(bar,i);
 
         // stores bar into unordered_map with respective freqency
@@ -113,7 +115,7 @@ double barSpectrum::findClosestFreq(double phase) {
 }
 
 double barSpectrum::mapMagnitude(double magnitude) {
-    return ((magnitude / 7.0f) * (-1 * (yWindowDim - 200.0f))) + (yWindowDim - 200.0f);
+    return (((magnitude)/ (MAXFREQ - MINFREQ)) * (-1 * (yWindowDim - 200.0f))) + (yWindowDim - 200.0f);
 }
 
 double barSpectrum::increaseHeight(double magnitude) {
@@ -131,18 +133,19 @@ bool barSpectrum::plotBars() {
     bool haltGrowth = true;
     float newHeight;
     for(auto i : sample) {
-        changeBar += 15.0f;
          newHeight = increaseHeight(i.second);
          if(newHeight > (i.second)) {
              haltGrowth = false;
          } else {
              haltGrowth = true;
          }
-         barGraph[i.first].setSize(sf::Vector2f(2.5f, newHeight));
-         std::cout << "i.first = " << i.first << " barGraph[i.first].getSize().y: " << barGraph[i.first].getSize().y << "\n";
-         std::cout << "i.first = " << i.first << " barGraph[i.first].getPosition().y: " << barGraph[i.first].getPosition().y << "\n";
-
+         std::cout << newHeight << "\n";
+         barGraph[i.first].setSize(sf::Vector2f(2.5f, -newHeight));
+         // std::cout << "i.first = " << i.first << " barGraph[i.first].getSize().y: " << barGraph[i.first].getSize().y << "\n";
+         // std::cout << "i.first = " << i.first << " barGraph[i.first].getPosition().y: " << barGraph[i.first].getPosition().y << "\n";
+         // std::cout << "origin: " << barGraph[i.first].getOrigin().x << ", " << barGraph[i.first].getOrigin().y << "\n";
     }
+    changeBar += 10.0f;
     return haltGrowth;
 }
 

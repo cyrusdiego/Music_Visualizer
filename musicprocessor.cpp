@@ -27,6 +27,7 @@ musicProcessor::musicProcessor(std::string songName) {
     halfSample = (numSamples/(samplerate*2));
     // will make sure that the array has a a power of 2 number of elements
     getLength();
+    double max = 0, min = 0;
     std::thread first (&musicProcessor::firstHalf,this,std::ref(freqOne));
     secondHalf (freqTwo);
     first.join();
@@ -37,6 +38,12 @@ musicProcessor::musicProcessor(std::string songName) {
 
 
 }
+
+std::pair <double,double> musicProcessor::getMaxMinFreq(){
+    std::pair <double,double> extremes = std::make_pair(min,max);
+    return extremes;
+}
+
 void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     int counter = 0;
     sf::Uint64 count;
@@ -79,6 +86,11 @@ std::vector<complex_vec>::iterator musicProcessor::getIterator(){
     return temp;
 }
 
+std::vector<complex_vec>::iterator musicProcessor::last(){
+    return freqDomain.end();
+}
+
+
 
 void musicProcessor::getLength(){
     double power = log2(samplerate);
@@ -116,6 +128,18 @@ void musicProcessor::FFT(complex_vec& vec){
             vec.at(j) = sample_even.at(j) + (W * sample_odd.at(j));
             vec.at(j + N/2) = sample_even.at(j) - (W* sample_odd.at(j));
             W *= W_N;
+            if (arg(vec.at(j)) > max){
+                max = arg(vec.at(j));
+            }
+            if (arg(vec.at(j + N/2)) > max){
+                max = arg(vec.at(j + N/2));
+            }
+            if (arg(vec.at(j)) < min){
+                min = arg(vec.at(j));
+            }
+            if (arg(vec.at(j + N/2)) < min){
+                min = arg(vec.at(j + N/2));
+            }
         }
     }
 }

@@ -40,7 +40,8 @@ private:
     std::map<float,sf::RectangleShape>::iterator mapItr;
     float duration = float(); // SFML Documentation (cite)
     std::vector<complex_vec>::iterator currentSample;
-
+    std::vector<complex_vec>::iterator temp;
+    bool flag = false;
 
 };
 
