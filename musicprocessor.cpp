@@ -74,8 +74,9 @@ void musicProcessor::play() {
 }
 
 std::vector<complex_vec>::iterator musicProcessor::getIterator(){
+    auto temp = freqDomainItr;
     freqDomainItr++;
-    return --freqDomainItr;
+    return temp;
 }
 
 

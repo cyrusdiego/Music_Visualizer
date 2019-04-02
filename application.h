@@ -20,24 +20,26 @@ public:
     application(const std::string title);
     ~application();
     void run();
+
+
+private:
     void processEvents();
     void updateScreen();
     void renderScreen();
-    void windowSetup();
-    void animationBarIncrease();
+    void getNextSample();
 
-private:
     sf::RenderWindow window;
     sf::Event event;
     sf::Clock clock;
-    barSpectrum music_bars;
-    musicProcessor *song;
-    std::map<float,sf::RectangleShape>::iterator mapItr;
-    bool ready = false;
     sf::Time dt;
-    float duration = float(); // SFML Documentation (cite)
     sf::RectangleShape taskbar;
-
+    barSpectrum *music_bars;
+    musicProcessor *song;
+    bool FFTDone = false;
+    bool FFTRefresh = false;
+    std::map<float,sf::RectangleShape>::iterator mapItr;
+    float duration = float(); // SFML Documentation (cite)
+    std::vector<complex_vec>::iterator currentSample;
 
 
 };

@@ -33,8 +33,6 @@ public:
     double mapMagnitude(double magnitude);
     double increaseHeight(double magnitude);
     void clearSampleMap();
-    bool restoreBars();
-    double decreaseHeight(double magnitude);
 
 
 private:

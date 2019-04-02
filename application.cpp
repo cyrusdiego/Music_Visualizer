@@ -18,27 +18,15 @@ application::application(const std::string title) {
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
 
-    music_bars = barSpectrum((int)window.getSize().x,(int)window.getSize().y);
+    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y);
 
-
-    windowSetup();
-
-}
-
-application::~application() {}
-
-void application::windowSetup() {
     sf::Color taskbar_color(177, 186, 188);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
     rectangle.setFillColor(taskbar_color);
     taskbar = rectangle;
-    window.draw(taskbar);
-
-    for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++){
-        window.draw(mapItr->second);
-    }
-    window.display();
 }
+
+application::~application() {}
 
 /*
     run is the main application loop that will check for events, update the buffer,
@@ -47,13 +35,12 @@ void application::windowSetup() {
 void application::run() {
     while(window.isOpen()) {
         processEvents();
-        if(ready) {
-            updateScreen();
-            while(true){
-                //std::cout << "stuck in while\n";
-            }
-            //renderScreen();
+        if(FFTRefresh) {
+            getNextSample();
         }
+        updateScreen();
+        renderScreen();
+
     }
 }
 
@@ -71,7 +58,7 @@ void application::processEvents() {
                 if(event.key.code == sf::Keyboard::Q)  // closes window with "Q"
                     window.close();
                 if(event.key.code == sf::Keyboard::P) {
-                    if(ready){
+                    if(FFTDone){
                         song->play();
                     } else {
                         std::cout << "error: no song loaded\n";
@@ -81,7 +68,8 @@ void application::processEvents() {
                     std::cout << "performing FFT now\n";
                     song = new musicProcessor("253011553368158.wav");
                     std::cout << "done FFT\n";
-                    ready = true;
+                    FFTDone = true;
+                    FFTRefresh = true;
                 }
 
             break;
@@ -89,31 +77,18 @@ void application::processEvents() {
     }
 }
 
-void application::animationBarIncrease() {
-    bool flag = true;
-    while(flag){
-        flag = music_bars.plotBars();
-        duration = 0;
-        window.clear(sf::Color::Black);
-        for(mapItr = music_bars.start(); mapItr != music_bars.last(); mapItr++) {
-            window.draw(mapItr->second);
-        }
-        window.display();
-    }
-
+void application::getNextSample() {
+    currentSample = song->getIterator();
+    music_bars->readFFT(currentSample);
 }
 
-/*
-
-*/
 void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
-    //music_bars.clearSampleMap();
-    std::vector<complex_vec>::iterator currentSample = song->getIterator();
-    music_bars.readFFT(currentSample);
-    if(duration > 0.01f) {
-        animationBarIncrease();
+
+    if(FFTDone && duration > 0.01f) {
+        FFTRefresh = music_bars->plotBars();
+        FFTRefresh = false;
     }
 }
 
@@ -122,6 +97,10 @@ void application::updateScreen() {
     and displaying it
 */
 void application::renderScreen() {
+    window.clear(sf::Color::Black);
     window.draw(taskbar);
+    for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
+        window.draw(mapItr->second);
+    }
     window.display();
 }
