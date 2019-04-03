@@ -8,6 +8,7 @@
 // threads: https://stackoverflow.com/questions/17472827/create-thread-inside-class-with-function-from-same-class
 #include "musicprocessor.h"
 #include <thread>
+#include <typeinfo>
 complex_num makeComp(sf::Int16 i) {
     complex_num temp (0,0);
     return temp+=(double)i;
