@@ -34,7 +34,7 @@ public:
     void clearSampleMap();
     double decreaseHeight(double magnitude, double prevHeight);
     bool plotBars();
-    void calcRanges(float i);
+    void calcRanges();
 
 private:
     std::map<float,sf::RectangleShape> barGraph;
@@ -46,6 +46,7 @@ private:
     std::map <double,float> sample;
     double MAXHEIGHT, MINHEIGHT;
     std::vector<double> freqRanges;
+    double mapFreqMultiplier = 1;
 };
 
 #endif
