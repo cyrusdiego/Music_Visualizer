@@ -34,6 +34,8 @@ public:
     void clearSampleMap();
     double decreaseHeight(double magnitude, double prevHeight);
     bool plotBars();
+    void calcBarsPerRange(float i);
+    void getFreqs();
 
 private:
     std::map<float,sf::RectangleShape> barGraph;
@@ -42,6 +44,7 @@ private:
     float numBars;
     float MAXFREQ, MINFREQ;
     int yWindowDim;
+    std::vector<int> noteRanges;// {lowBass,bass,lowMidrange,midrange,upMidrange, high} https://www.teachmeaudio.com/mixing/techniques/audio-spectrum/
     std::map <double,float> sample;
     double MAXHEIGHT, MINHEIGHT;
 };

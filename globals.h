@@ -5,6 +5,14 @@
 
     globals.h : header file containing content all files require
 */
+
+/*
+    job title
+    start date
+    duration of work term
+    salary + confirmation it is full time work
+*/
+
 #ifndef GLOBALS_H
 #define GLOBALS_H
 #include <SFML/Window.hpp>
