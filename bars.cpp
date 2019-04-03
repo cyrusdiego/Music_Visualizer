@@ -34,10 +34,19 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqE
         barGraph[mapFreq(i)] = bar;
         x += 10.0;
     }
+    calcRanges();
 
 }
 
 barSpectrum::~barSpectrum(){}
+
+void barSpectrum::calcRanges() {
+    double frequency;
+    for(int i = 0; i < numBars; i++){
+        frequency = (i *(MAXFREQ - MINFREQ) / numBars);
+        freqRanges.push_back(frequency);
+    }
+}
 
 sf::RectangleShape barSpectrum::getBar(int i) {
     return barGraph[i];
@@ -196,7 +205,7 @@ bool barSpectrum::plotBars() {
 
 void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uint64 sampleRate, sf::Uint64 length) {
     double j = 0;
-    double freq,magnitude;
+    double freq, magnitude, biggestMagnitude  = -1, biggestFrequency = 0, rangeIndex = 0;
     changeBar = 0.0f;
     this->clearSampleMap();
     // std::cout << "size of sample before loop: " << sample.size() << "\n";
@@ -204,10 +213,23 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
     for(std::vector<complex_num>::iterator i = cmplxVector->begin();
                                         i != cmplxVector->end(); i++) {
         freq = (j * (double)sampleRate) / (double)length;
-        // std::cout << "freq: " << freq << " j: " << j << "\n";
         magnitude = 10 * std::log10(std::abs(*i));
-        std::cout << "freq: " << findClosestFreq(freq) << " mapMagnitude(magnitdue): " << (float)mapMagnitude(magnitude) << "\n";
-        sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
+        if(freqRanges.at(rangeIndex) <= freq && freq <= freqRanges.at(rangeIndex + 1)) {
+            if(magnitude > biggestMagnitude) {
+                biggestMagnitude = magnitude;
+                biggestFrequency = freq;
+            }
+        } else {
+            sample[findClosestFreq(biggestFrequency)] = (float)mapMagnitude(biggestMagnitude);
+            rangeIndex++;
+            biggestMagnitude = -1;
+            if(rangeIndex == freqRanges.size()) {
+                break;
+            }
+
+        }
+        // std::cout << "freq: " << freq << " j: " << j << "\n";
+        // std::cout << "freq: " << findClosestFreq(freq) << " mapMagnitude(magnitdue): " << (float)mapMagnitude(magnitude) << "\n";
         j++;
         if(j == ((length /2 ) - 1)) {
             break;

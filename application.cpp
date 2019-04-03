@@ -34,6 +34,9 @@ application::~application() {}
 void application::run() {
     while(window.isOpen()) {
         processEvents();
+        if(doneSong) {
+            window.close();
+        }
         if(FFTRefresh) {
             flag = false;
             // counter++;
@@ -85,7 +88,7 @@ void application::getNextSample() {
 
     if(currentSample == song->last()){
         std::cout << "currentSample = song->last()\n";
-        FFTRefresh = false;
+        doneSong = true;
     } else {
         // std::cout << "reading FFT\n";
         music_bars->readFFT(currentSample,song->getSampleRate(),song->getLength());

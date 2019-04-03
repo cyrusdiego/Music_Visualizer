@@ -41,7 +41,7 @@ private:
     float duration = float(); // SFML Documentation (cite)
     std::vector<complex_vec>::iterator currentSample;
     std::vector<complex_vec>::iterator temp;
-    bool flag = false;
+    bool flag = false, doneSong = false;
     int counter = 0;
 };
 
