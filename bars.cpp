@@ -12,27 +12,28 @@ barSpectrum::barSpectrum(){}
 barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqExtremes, std::pair<double,double> ampExtremes){
     // calc max number of bars in window and the freuency ranges per bar
     // this is window / pc dependent will need to be calc every launch of application
-    numBars = floor(xWindow / 10) + 1;
+    numBars = floor(xWindow / 50) + 1;
     yWindowDim = yWindow;
-    MAXHEIGHT = 10 * std::log10(ampExtremes.second);
-    MINHEIGHT = (ampExtremes.first != 0 ? 10 * std::log10(ampExtremes.first) : 0) ;
+    std::cout << "ampExtremes.second: " << ampExtremes.second << "\n" << "log(MAXHEIGHT): " << std::log10(ampExtremes.second) << "\n";
+    MAXHEIGHT = /** std::pow(10,*/20 * std::log10(ampExtremes.second);
+    MINHEIGHT = (ampExtremes.first != 0 ? 20 * std::log10(ampExtremes.first) : 0) ;
     std::cout << "maxheight and min height: ";
     std::cout << MAXHEIGHT << " " << MINHEIGHT << "\n";
     std::cout << "numBars: " << numBars << "\n";
     // temporary object used to store in barGraph
-    sf::RectangleShape bar(sf::Vector2f(5.0f, -200.0f));
+    sf::RectangleShape bar(sf::Vector2f(50.0f, -200.0f));
+    std::cout << "bar x dimension: " << bar.getSize().x << "\n";
     int x = 0;
     MAXFREQ = freqExtremes.second; MINFREQ = freqExtremes.first;
-    std::cout << MAXFREQ << " " << MINFREQ << "\n";
+    std::cout << "MAXFREQ and MINFREQ: " << MAXFREQ << " " << MINFREQ << "\n";
     std::cout << "numBars: " << numBars << "\n";
     for(float i = 1; i < numBars + 1; i++){
         // shifts position and sets color
         bar.setPosition(x, yWindow);
         calcColor(bar,i);
-
         // stores bar into unordered_map with respective freqency
         barGraph[mapFreq(i)] = bar;
-        x += 10.0;
+        x += 50.0;
     }
 
 }
@@ -90,6 +91,7 @@ void barSpectrum::calcColor(sf::RectangleShape &bar, float counter) {
 
     sf::Color barColor(r,g,b);
     bar.setFillColor(barColor);
+
 }
 
 void barSpectrum::clearSampleMap(){
@@ -185,12 +187,12 @@ bool barSpectrum::plotBars() {
          //     std:: cout << "newHeight negative\n";
          // }
          // std::cout << newHeight << "\n";
-         barGraph[i.first].setSize(sf::Vector2f(5.0f, newHeight));
+         barGraph[i.first].setSize(sf::Vector2f(50.0f, newHeight));
          // std::cout << "i.first = " << i.first << " barGraph[i.first].getSize().y: " << barGraph[i.first].getSize().y << "\n";
          // std::cout << "i.first = " << i.first << " barGraph[i.first].getPosition().y: " << barGraph[i.first].getPosition().y << "\n";
          // std::cout << "origin: " << barGraph[i.first].getOrigin().x << ", " << barGraph[i.first].getOrigin().y << "\n";
     }
-    changeBar += 5.0f;
+    changeBar += 1.0f;
     return haltGrowth;
 }
 
@@ -205,8 +207,9 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
                                         i != cmplxVector->end(); i++) {
         freq = (j * (double)sampleRate) / (double)length;
         // std::cout << "freq: " << freq << " j: " << j << "\n";
-        magnitude = 10 * std::log10(std::abs(*i));
-        std::cout << "freq: " << findClosestFreq(freq) << " mapMagnitude(magnitdue): " << (float)mapMagnitude(magnitude) << "\n";
+        magnitude = 20 * std::log10(std::abs(*i));
+        // std::cout << "magnitude: " << magnitude << "\n";
+        // std::cout << "freq: " << findClosestFreq(freq) << " mapMagnitude(magnitdue): " << (float)mapMagnitude(magnitude) << "\n";
         sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
         j++;
         if(j == ((length /2 ) - 1)) {
