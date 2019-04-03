@@ -34,7 +34,7 @@ public:
     void clearSampleMap();
     double decreaseHeight(double magnitude, double prevHeight);
     bool plotBars();
-    void calcRanges(float i);
+    void calcRanges();
 
 private:
     std::map<float,sf::RectangleShape> barGraph;

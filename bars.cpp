@@ -223,7 +223,7 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
             sample[findClosestFreq(biggestFrequency)] = (float)mapMagnitude(biggestMagnitude);
             rangeIndex++;
             biggestMagnitude = -1;
-            if(rangeIndex == freqRanges.size()) {
+            if(rangeIndex == freqRanges.size()-1) {
                 break;
             }
 
