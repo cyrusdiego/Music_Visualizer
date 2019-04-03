@@ -17,7 +17,7 @@
 class barSpectrum {
 public:
     barSpectrum();
-    barSpectrum(int xWindow, int yWindow,std::pair<double,double> extremes);
+    barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqExtremes, std::pair<double,double> ampExtremes);
     ~barSpectrum();
 
     sf::RectangleShape getBar(int i);
@@ -27,13 +27,13 @@ public:
     std::map<float,sf::RectangleShape>::iterator start();
     std::map<float,sf::RectangleShape>::iterator last();
 
-    bool plotBars();
     double findClosestFreq(double phase);
     void readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uint64 sampleRate, sf::Uint64 length);
     double mapMagnitude(double magnitude);
-    double increaseHeight(double magnitude);
+    double increaseHeight(double magnitude, double prevHeight);
     void clearSampleMap();
-
+    double decreaseHeight(double magnitude, double prevHeight);
+    bool plotBars();
 
 private:
     std::map<float,sf::RectangleShape> barGraph;
@@ -43,7 +43,7 @@ private:
     float MAXFREQ, MINFREQ;
     int yWindowDim;
     std::map<double,float> sample;
-
+    double MAXHEIGHT, MINHEIGHT;
 };
 
 #endif

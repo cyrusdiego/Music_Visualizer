@@ -36,11 +36,12 @@ void application::run() {
         processEvents();
         if(FFTRefresh) {
             flag = false;
+            // counter++;
             getNextSample();
+            // std::cout << counter << "\n";
         }
         updateScreen();
         renderScreen();
-
     }
 }
 
@@ -66,9 +67,9 @@ void application::processEvents() {
                 }
                 if(event.key.code == sf::Keyboard::F) {
                     std::cout << "performing FFT now\n";
-                    song = new musicProcessor("253011553368158.wav");
+                    song = new musicProcessor("/home/cyrus/Documents/Music_Visualizer/253011553368158.wav");
                     std::cout << "done FFT\n";
-                    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq());
+                    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
                     FFTDone = true;
                     FFTRefresh = true;
                     flag = true;
@@ -86,7 +87,7 @@ void application::getNextSample() {
         std::cout << "currentSample = song->last()\n";
         FFTRefresh = false;
     } else {
-        std::cout << "reading FFT\n";
+        // std::cout << "reading FFT\n";
         music_bars->readFFT(currentSample,song->getSampleRate(),song->getLength());
     }
 }
@@ -117,7 +118,7 @@ void application::renderScreen() {
     window.clear(sf::Color::Black);
 
     window.draw(taskbar);
-    if(flag) {
+    if(FFTDone) {
         for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
             window.draw(mapItr->second);
         }

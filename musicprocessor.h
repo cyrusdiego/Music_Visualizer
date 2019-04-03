@@ -27,18 +27,20 @@ public:
     void secondHalf(std::vector<complex_vec> &vec);
     std::pair <double,double> getMaxMinFreq();
     sf::Uint64 getSampleRate();
+    std::pair<double,double> getMaxMinAmp();
 
 private:
     sf::InputSoundFile file;
     sf::InputSoundFile file2;
     sf::Music music;
     sf::Uint64 sampleRate;
-    sf::Uint64 sampleLength;
+    sf::Uint64 sampleLength = 32768;
     std::vector<complex_vec> freqDomain;
     std::vector<complex_vec>::iterator freqDomainItr;
     double max;
     double min;
-
+    double maxAmplitude;
+    double minAmplitude;
     sf::Uint64 halfSample;
 };
 

@@ -42,6 +42,7 @@ private:
     std::vector<complex_vec>::iterator currentSample;
     std::vector<complex_vec>::iterator temp;
     bool flag = false;
+    int counter = 0;
 };
 
 #endif

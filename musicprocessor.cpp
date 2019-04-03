@@ -24,10 +24,11 @@ musicProcessor::musicProcessor(std::string songName) {
     if (!file2.openFromFile(songName));
     sampleRate = getSampleRate();
     sf::Uint64 numSamples = file.getSampleCount();
-    halfSample = (numSamples/(sampleRate*2));
+    halfSample = (numSamples/(sampleLength*2));
     // will make sure that the array has a a power of 2 number of elements
-    sampleLength = getLength();
     double max = 0, min = 0;
+    maxAmplitude = 0;
+    minAmplitude = 10000000;
     std::thread first (&musicProcessor::firstHalf,this,std::ref(freqOne));
     secondHalf (freqTwo);
     first.join();
@@ -36,10 +37,10 @@ musicProcessor::musicProcessor(std::string songName) {
     freqDomainItr = freqDomain.begin();
     std::cout << "sampleLength = " << sampleLength << " sampleRate = " << sampleRate << "\n";
     // std::cout << "max: " << max << "\n";
-    min = 0;
+}
 
-
-
+std::pair<double,double> musicProcessor::getMaxMinAmp(){
+    return std::make_pair(minAmplitude,maxAmplitude);
 }
 
 sf::Uint64 musicProcessor::getSampleRate() {
@@ -50,32 +51,38 @@ sf::Uint64 musicProcessor::getSampleRate() {
 std::pair <double,double> musicProcessor::getMaxMinFreq(){
     max = (((sampleLength / 2) - 1) * sampleRate) / sampleLength;
     std::pair <double,double> extremes = std::make_pair(min,max);
-    std::cout << "extremes.second = " << extremes.second << "\n";
     return extremes;
 }
 
 void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     int counter = 0;
     sf::Uint64 count;
-    while (counter < halfSample){
+    while (counter < file.getSampleCount()/2){
         sf::Int16 sample[sampleLength] = {0};
-        count = file.read(sample,sampleRate);
-        std::vector <sf::Int16> temp(sample,sample + sampleLength);
+        count = file.read(sample,sampleLength);
+        for (int i = 0; i < sampleLength; i++) {
+            double multiplier = 0.5 * (1 - cos(2*pi*i/(sampleLength - 1)));
+            sample[i] = multiplier * sample[i];
+        }
+        std::vector <sf::Int16> thing(sample,sample+sampleLength);
         complex_vec compSample(sampleLength);
-        std::transform(temp.begin(),temp.end(),compSample.begin(),makeComp);
+        std::transform(thing.begin(),thing.end(),compSample.begin(),makeComp);
         FFT(compSample);
         vec.push_back(compSample);
-        counter++;
+        counter+=count;
     }
 }
 
 void musicProcessor::secondHalf(std::vector<complex_vec> &vec){
     file2.seek(file.getSampleCount()/2);
-    int counter = 0;
     sf::Uint64 count;
     while (count > 0){
         sf::Int16 sample[sampleLength] = {0};
-        count = file2.read(sample,sampleRate);
+        count = file2.read(sample,sampleLength);
+        for (int i = 0; i < sampleLength; i++) {
+            double multiplier = 0.5 * (1 - cos(2*pi*i/(sampleLength - 1)));
+            sample[i] = multiplier * sample[i];
+        }
         std::vector <sf::Int16> thing(sample,sample+sampleLength);
         complex_vec compSample(sampleLength);
         std::transform(thing.begin(),thing.end(),compSample.begin(),makeComp);
@@ -103,8 +110,7 @@ std::vector<complex_vec>::iterator musicProcessor::last(){
 
 
 sf::Uint64 musicProcessor::getLength(){
-    double power = log2(getSampleRate());
-    return ((fmod(power,2.0) == 0.0) ? getSampleRate() : pow(2,(int)power+1));
+    return sampleLength;
 }
 
 void musicProcessor::FFT(complex_vec& vec){
@@ -138,18 +144,19 @@ void musicProcessor::FFT(complex_vec& vec){
             vec.at(j) = sample_even.at(j) + (W * sample_odd.at(j));
             vec.at(j + N/2) = sample_even.at(j) - (W* sample_odd.at(j));
             W *= W_N;
-            // if (arg(vec.at(j)) > max){
-            //     max = arg(vec.at(j));
-            // }
-            // if (arg(vec.at(j + N/2)) > max){
-            //     max = arg(vec.at(j + N/2));
-            // }
-            // if (arg(vec.at(j)) < min){
-            //     min = arg(vec.at(j));
-            // }
-            // if (arg(vec.at(j + N/2)) < min){
-            //     min = arg(vec.at(j + N/2));
-            // }
+            if (std::abs(vec.at(j)) > maxAmplitude){
+                maxAmplitude = abs(vec.at(j));
+            } else if (std::abs(vec.at(j)) < minAmplitude) {
+                minAmplitude = std::abs(vec.at(j));
+            }
+            if (std::abs(vec.at(j + (N/2))) > maxAmplitude){
+                maxAmplitude = std::abs(vec.at(j + (N/2)));
+            } else if (std::abs(vec.at(j+(N/2))) < minAmplitude) {
+                minAmplitude = std::abs(vec.at(j+(N/2)));
+
+            }
+
+
         }
     }
 }
