@@ -205,7 +205,7 @@ bool barSpectrum::plotBars() {
 
 void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uint64 sampleRate, sf::Uint64 length) {
     double j = 0;
-    double freq,magnitude;
+    double freq, magnitude, biggestMagnitude  = -1, biggestFrequency = 0, rangeIndex = 0;
     changeBar = 0.0f;
     this->clearSampleMap();
     // std::cout << "size of sample before loop: " << sample.size() << "\n";
@@ -214,10 +214,22 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
                                         i != cmplxVector->end(); i++) {
         freq = (j * (double)sampleRate) / (double)length;
         magnitude = 10 * std::log10(std::abs(*i));
+        if(freqRanges.at(rangeIndex) <= freq && freq <= freqRanges.at(rangeIndex + 1)) {
+            if(magnitude > biggestMagnitude) {
+                biggestMagnitude = magnitude;
+                biggestFrequency = freq;
+            }
+        } else {
+            sample[findClosestFreq(biggestFrequency)] = (float)mapMagnitude(biggestMagnitude);
+            rangeIndex++;
+            biggestMagnitude = -1;
+            if(rangeIndex == freqRanges.size()) {
+                break;
+            }
 
+        }
         // std::cout << "freq: " << freq << " j: " << j << "\n";
         // std::cout << "freq: " << findClosestFreq(freq) << " mapMagnitude(magnitdue): " << (float)mapMagnitude(magnitude) << "\n";
-        sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
         j++;
         if(j == ((length /2 ) - 1)) {
             break;
