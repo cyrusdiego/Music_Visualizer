@@ -42,7 +42,7 @@ private:
     float numBars;
     float MAXFREQ, MINFREQ;
     int yWindowDim;
-    std::map<double,float> sample;
+    std::map <double,float> sample;
     double MAXHEIGHT, MINHEIGHT;
 };
 

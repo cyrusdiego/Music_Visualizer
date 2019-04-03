@@ -16,6 +16,7 @@
 #include <cmath>  // for log2
 #include <math.h>
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 #include <complex>
 #include <algorithm>

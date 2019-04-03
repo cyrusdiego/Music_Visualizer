@@ -12,7 +12,7 @@ barSpectrum::barSpectrum(){}
 barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqExtremes, std::pair<double,double> ampExtremes){
     // calc max number of bars in window and the freuency ranges per bar
     // this is window / pc dependent will need to be calc every launch of application
-    numBars = floor(xWindow / 5) + 1;
+    numBars = floor(xWindow / 10) + 1;
     yWindowDim = yWindow;
     MAXHEIGHT = 10 * std::log10(ampExtremes.second);
     MINHEIGHT = (ampExtremes.first != 0 ? 10 * std::log10(ampExtremes.first) : 0) ;
@@ -20,7 +20,7 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqE
     std::cout << MAXHEIGHT << " " << MINHEIGHT << "\n";
     std::cout << "numBars: " << numBars << "\n";
     // temporary object used to store in barGraph
-    sf::RectangleShape bar(sf::Vector2f(2.5f, -200.0f));
+    sf::RectangleShape bar(sf::Vector2f(5.0f, -200.0f));
     int x = 0;
     MAXFREQ = freqExtremes.second; MINFREQ = freqExtremes.first;
     std::cout << MAXFREQ << " " << MINFREQ << "\n";
@@ -32,7 +32,7 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqE
 
         // stores bar into unordered_map with respective freqency
         barGraph[mapFreq(i)] = bar;
-        x += 5.0;
+        x += 10.0;
     }
 
 }
@@ -166,10 +166,12 @@ bool barSpectrum::plotBars() {
         if(barGraph[i.first].getSize().y < i.second) {
             newHeight = decreaseHeight(i.second,barGraph[i.first].getSize().y);
 
-        } else {
+        } else if(barGraph[i.first].getSize().y > i.second){
             newHeight = increaseHeight(i.second,barGraph[i.first].getSize().y);
-        }
+        } else {
+            newHeight = decreaseHeight(-200.0f,barGraph[i.first].getSize().y);
 
+        }
          if(newHeight > (i.second)) { // dont change this im pre sure is correct lol
              haltGrowth = false;
          } else {
@@ -183,12 +185,12 @@ bool barSpectrum::plotBars() {
          //     std:: cout << "newHeight negative\n";
          // }
          // std::cout << newHeight << "\n";
-         barGraph[i.first].setSize(sf::Vector2f(2.5f, newHeight));
+         barGraph[i.first].setSize(sf::Vector2f(5.0f, newHeight));
          // std::cout << "i.first = " << i.first << " barGraph[i.first].getSize().y: " << barGraph[i.first].getSize().y << "\n";
          // std::cout << "i.first = " << i.first << " barGraph[i.first].getPosition().y: " << barGraph[i.first].getPosition().y << "\n";
          // std::cout << "origin: " << barGraph[i.first].getOrigin().x << ", " << barGraph[i.first].getOrigin().y << "\n";
     }
-    changeBar += 1.0f;
+    changeBar += 5.0f;
     return haltGrowth;
 }
 
