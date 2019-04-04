@@ -30,15 +30,16 @@ musicProcessor::musicProcessor(std::string songName) {
     double max = 0, min = 0;
     maxAmplitude = 0;
     minAmplitude = 10000000;
+
+    // divide and conquer approach to split the workload of calculating fft
+    // of whole song 
     std::thread first (&musicProcessor::firstHalf,this,std::ref(freqOne));
     secondHalf (freqTwo);
     first.join();
     freqDomain.insert (freqDomain.begin(),freqOne.begin(),freqOne.end());
     freqDomain.insert(freqDomain.end(),freqTwo.begin(),freqTwo.end());
     freqDomainItr = freqDomain.begin();
-    // std::cout << "size: " << freqDomainItr->size() << "\n";
-    // std::cout << "sampleLength = " << sampleLength << " sampleRate = " << sampleRate << "\n";
-    // std::cout << "max: " << max << "\n";
+
 }
 
 std::pair<double,double> musicProcessor::getMaxMinAmp(){
@@ -56,16 +57,20 @@ std::pair <double,double> musicProcessor::getMaxMinFreq(){
     return extremes;
 }
 
+// first half of fft, will take a sample of length 2048 and apply fft to that
 void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     int counter = 0;
     sf::Uint64 count;
     while (counter < file.getSampleCount()/2){
-        sf::Int16 sample[sampleLength] = {0};
+        sf::Int16 sample[sampleLength] = {0}; // zero padding
         count = file.read(sample,sampleLength);
+
+        // applies hanning window function
         for (int i = 0; i < sampleLength; i++) {
             double multiplier = 0.5 * (1 - cos(2*pi*i/(sampleLength - 1)));
             sample[i] = multiplier * sample[i];
         }
+
         std::vector <sf::Int16> thing(sample,sample+sampleLength);
         complex_vec compSample(sampleLength);
         std::transform(thing.begin(),thing.end(),compSample.begin(),makeComp);
@@ -75,16 +80,20 @@ void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     }
 }
 
+// second half of fft analysis
 void musicProcessor::secondHalf(std::vector<complex_vec> &vec){
-    file2.seek(file.getSampleCount()/2);
+    file2.seek(file.getSampleCount()/2);  // starts at 2nd half of music file
     sf::Uint64 count;
     while (count > 0){
-        sf::Int16 sample[sampleLength] = {0};
+        sf::Int16 sample[sampleLength] = {0};  // zero padding
         count = file2.read(sample,sampleLength);
+
+        // apply hanning window
         for (int i = 0; i < sampleLength; i++) {
             double multiplier = 0.5 * (1 - cos(2*pi*i/(sampleLength - 1)));
             sample[i] = multiplier * sample[i];
         }
+
         std::vector <sf::Int16> thing(sample,sample+sampleLength);
         complex_vec compSample(sampleLength);
         std::transform(thing.begin(),thing.end(),compSample.begin(),makeComp);
@@ -99,6 +108,7 @@ void musicProcessor::play() {
     music.play();
 }
 
+// basically our frame pointer for our fft buffer
 std::vector<complex_vec>::iterator musicProcessor::getIterator(){
     auto temp = freqDomainItr;
     freqDomainItr++;
@@ -124,6 +134,7 @@ void musicProcessor::FFT(complex_vec& vec){
     }
     else{
         //https://stackoverflow.com/questions/33787939/sort-vector-by-even-and-odd-indices-c
+        // puts even index elements at start and odd index at end
         stable_partition(begin(vec),end(vec),
                         [&vec](complex_num const& a){return 0==((&a-&vec[0])%2);});
 

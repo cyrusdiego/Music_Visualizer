@@ -111,11 +111,9 @@ void application::run() {
     while(window.isOpen()) {
         processEvents();
         if(FFTRefresh) {
-            flag = false;
             getNextSample();
         }
         if(doneSong) {
-            // std::cout << "got inside doneSong\n";
             window.close();
         }
         updateScreen();
@@ -142,7 +140,6 @@ void application::processEvents() {
                         FFTDone = true;
                         PLAY = true;
                         song->play();
-                        // sf::sleep(sf::seconds(0.5));
                     } else {
                         std::cout << "error: no song loaded\n";
                     }
@@ -159,7 +156,6 @@ void application::processEvents() {
                     renderScreen();
                     music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
                     ready = true;
-                    flag = true;
                 }
                 if((event.key.code == sf::Keyboard::Left) && (index > 0)){
                     index--;
@@ -179,10 +175,8 @@ void application::processEvents() {
 void application::getNextSample() {
     currentSample = song->getIterator();
     if(currentSample == song->last()){
-        std::cout << "currentSample = song->last()\n";
         doneSong = true;
     } else {
-        // std::cout << "reading FFT\n";
         music_bars->readFFT(currentSample,song->getSampleRate(),currentSample->size());
         music_bars->restoreHeight();
         renderScreen();
@@ -196,15 +190,8 @@ void application::updateScreen() {
 
 
     if(FFTDone && duration > (1.0f/60.0f)) {
-        // std::cout << "inside\n";
         duration = 0;
         FFTRefresh = music_bars->plotBars();
-        if(!FFTRefresh) {
-            flag = true;
-        } else {
-            flag = false;
-        }
-        // std::cout << "done\n";
 
     }
 }
