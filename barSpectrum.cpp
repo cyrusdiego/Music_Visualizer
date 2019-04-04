@@ -211,7 +211,7 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
         // Will only plot the bars with a certain amplitude
         if(magnitude > baseMagnitude){
             sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
-
+        }
         j++;
         if(j == ((length /2 ) - 1)) {
             break;
