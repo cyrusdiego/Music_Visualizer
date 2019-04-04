@@ -9,7 +9,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 #include "globals.h"
-#include "bars.h"
+#include "barSpectrum.h"
 #include "musicprocessor.h"
 /*
     application class that holds the window instantiating, keyboard input,
@@ -56,9 +56,13 @@ private:
     musicProcessor *song;
     bool FFTDone = false;
     bool FFTRefresh = false;
+<<<<<<< HEAD
     bool ready = false;
     bool PLAY = false;
     std::map<float,sf::RectangleShape>::iterator mapItr;
+=======
+    std::map<float,std::pair<sf::RectangleShape,std::pair<double,double>>>::iterator mapItr;
+>>>>>>> c212912b58106fff61e50fa4ddf2ad978f96e025
     float duration = float(); // SFML Documentation (cite)
     std::vector<complex_vec>::iterator currentSample;
     std::vector<complex_vec>::iterator temp;
