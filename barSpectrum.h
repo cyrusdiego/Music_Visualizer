@@ -47,9 +47,9 @@ private:
     double MAXHEIGHT, MINHEIGHT;
     double mapFreqMultiplier = 1;
     std::vector<int> ranges;
-    std::vector<int> freqRanges = { 0, 20, 60, 250,500, 2000, 4000,6000, 20000};
+    std::vector<int> freqRanges = { 0, 60, 100, 300,700, 1500, 2500, 4000, 5000};
     float baseMagnitude;
-    double xPosition = 120, defaultY = -200.0f;
+    double xPosition = 130, defaultY = -200.0f;
 };
 
 #endif

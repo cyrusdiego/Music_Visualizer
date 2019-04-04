@@ -17,16 +17,13 @@ application::application(const std::string title) {
 
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
-<<<<<<< HEAD
     setup();
     boxes();
     printFFTStateText();
     printCurrentSongText();
     printInstructions();
 }
-=======
-    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
->>>>>>> c212912b58106fff61e50fa4ddf2ad978f96e025
+
 
 void application::boxes () {
     sf::Color taskbar_color(177, 186, 188);
@@ -74,6 +71,7 @@ void application::printCurrentSongText(){
 void application:: printInstructions(){
     Instructions.setFont(Font);
     Instructions.setColor(sf::Color(0, 0, 0));
+    Instructions.setCharacterSize(20);
     Instructions.setString("USE LEFT AND RIGHT ARROW KEYS TO CHOSE SONG || PRESS <F> TO BEGIN FOURIER TRANSFORM || PRESS <P> TO VISUALIZE || PRESS <Q> TO ESCAPE");
     Instructions.setPosition(window.getSize().x/11 ,window.getSize().y-43);
 }
@@ -144,12 +142,12 @@ void application::processEvents() {
                         FFTDone = true;
                         PLAY = true;
                         song->play();
+                        sf::sleep(sf::seconds(0.5));
                     } else {
                         std::cout << "error: no song loaded\n";
                     }
                 }
                 if(event.key.code == sf::Keyboard::F) {
-<<<<<<< HEAD
                     std::cout << "FFT IN PROGRESS\n";
                     FFTOnce = 0;
                     lastFFT = current_song;
@@ -159,11 +157,6 @@ void application::processEvents() {
                     song = new musicProcessor(directory+current_song);
                     printFFTStateText();
                     renderScreen();
-=======
-                    std::cout << "performing FFT now\n";
-                    song = new musicProcessor("/home/cyrus/Documents/Music_Visualizer/253011553368158.wav");
-                    std::cout << "done FFT\n";
->>>>>>> c212912b58106fff61e50fa4ddf2ad978f96e025
                     music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
                     ready = true;
                     flag = true;
@@ -199,11 +192,8 @@ void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
 
-<<<<<<< HEAD
-    if(FFTDone && duration > 0.02f) {
-=======
-    if(FFTDone && duration > 0.05f) {
->>>>>>> c212912b58106fff61e50fa4ddf2ad978f96e025
+
+    if(FFTDone && duration > (1.0f/60.0f)) {
         // std::cout << "inside\n";
         duration = 0;
         FFTRefresh = music_bars->plotBars();

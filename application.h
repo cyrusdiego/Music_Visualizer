@@ -56,14 +56,10 @@ private:
     musicProcessor *song;
     bool FFTDone = false;
     bool FFTRefresh = false;
-<<<<<<< HEAD
     bool ready = false;
     bool PLAY = false;
-    std::map<float,sf::RectangleShape>::iterator mapItr;
-=======
     std::map<float,std::pair<sf::RectangleShape,std::pair<double,double>>>::iterator mapItr;
->>>>>>> c212912b58106fff61e50fa4ddf2ad978f96e025
-    float duration = float(); // SFML Documentation (cite)
+    double duration = double(); // SFML Documentation (cite)
     std::vector<complex_vec>::iterator currentSample;
     std::vector<complex_vec>::iterator temp;
     bool flag = false, doneSong = false;
