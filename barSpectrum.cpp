@@ -14,7 +14,7 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqE
     // Initial calculations of variables
     numBars = floor(xWindow / xPosition) + 1;
     yWindowDim = yWindow;
-    MAXHEIGHT = 10 * std::log10(ampExtremes.second / pi);
+    MAXHEIGHT = 10 * std::log10(ampExtremes.second);
     MINHEIGHT = (ampExtremes.first != 0 ? 10 * std::log10(ampExtremes.first) : 0);
     baseMagnitude = 0.4f * MAXHEIGHT;
 
@@ -176,15 +176,11 @@ bool barSpectrum::plotBars() {
     for(auto i : sample) {
 
         if(barGraph[i.first].first.getSize().y <= i.second) {
-            // if(barGraph[i.first].first.getSize().y != defaultY){
             decrHeight = decreaseHeight(defaultY,barGraph[i.first]);
             barGraph[i.first].first.setSize(sf::Vector2f(xPosition, decrHeight));
 
-                // barGraph[i.first].first.setSize(sf::Vector2f(xPosition,defaultY));
 
         } else if(barGraph[i.first].first.getSize().y > i.second){
-            // barGraph[i.first].first.setSize(sf::Vector2f(xPosition,i.second));
-
             newHeight = increaseHeight(i.second,barGraph[i.first]);
             barGraph[i.first].first.setSize(sf::Vector2f(xPosition, newHeight));
 
@@ -210,7 +206,7 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
     for(std::vector<complex_num>::iterator i = cmplxVector->begin();
                                         i != cmplxVector->end(); i++) {
         freq = (j * (double)sampleRate) / (double)length;
-        magnitude = 10 * std::log10(std::abs(*i) / pi);
+        magnitude = 10 * std::log10(std::abs(*i));
 
         // Will only plot the bars with a certain amplitude
         if(magnitude > baseMagnitude){
