@@ -9,8 +9,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 #include "globals.h"
-#include "barSpectrum.h"
-#include "musicprocessor.h"
+#include "bars.h"
 /*
     application class that holds the window instantiating, keyboard input,
     and the application running
@@ -19,30 +18,19 @@ class application {
 public:
     application(const std::string title);
     ~application();
+
     void run();
-
-
-private:
     void processEvents();
     void updateScreen();
     void renderScreen();
-    void getNextSample();
+    void windowSetup();
 
+private:
     sf::RenderWindow window;
     sf::Event event;
-    sf::Clock clock;
-    sf::Time dt;
-    sf::RectangleShape taskbar;
-    barSpectrum *music_bars;
-    musicProcessor *song;
-    bool FFTDone = false;
-    bool FFTRefresh = false;
-    std::map<float,std::pair<sf::RectangleShape,std::pair<double,double>>>::iterator mapItr;
-    float duration = float(); // SFML Documentation (cite)
-    std::vector<complex_vec>::iterator currentSample;
-    std::vector<complex_vec>::iterator temp;
-    bool flag = false, doneSong = false;
-    int counter = 0;
+    barSpectrum music_bars;
+
+
 };
 
 #endif

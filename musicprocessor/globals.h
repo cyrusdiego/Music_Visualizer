@@ -5,14 +5,6 @@
 
     globals.h : header file containing content all files require
 */
-
-/*
-    job title
-    start date
-    duration of work term
-    salary + confirmation it is full time work
-*/
-
 #ifndef GLOBALS_H
 #define GLOBALS_H
 #include <SFML/Window.hpp>
@@ -23,15 +15,15 @@
 #include <cassert>
 #include <cmath>  // for log2
 #include <math.h>
-#include <iostream>
-#include <unordered_map>
+#include <iostream>  // for cout
 #include <vector>
 #include <complex>
 #include <algorithm>
 #include <fstream>
-#include <map>
 const double pi = 3.141592653589793238460;
-typedef std::complex <double> complex_num;
-typedef std::vector <complex_num> complex_vec;
+typedef std::complex<double> complex_num;
+typedef std::vector<complex_num> complex_vec;
+
+
 
 #endif
