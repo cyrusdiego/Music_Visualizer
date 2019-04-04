@@ -17,6 +17,7 @@ application::application(const std::string title) {
 
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
+    music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
 
 
     sf::Color taskbar_color(177, 186, 188);
@@ -39,7 +40,7 @@ void application::run() {
             getNextSample();
         }
         if(doneSong) {
-            std::cout << "got inside doneSong\n";
+            // std::cout << "got inside doneSong\n";
             window.close();
         }
         updateScreen();
@@ -98,7 +99,7 @@ void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
 
-    if(FFTDone && duration > 0.02f) {
+    if(FFTDone && duration > 0.05f) {
         // std::cout << "inside\n";
         duration = 0;
         FFTRefresh = music_bars->plotBars();
@@ -122,7 +123,7 @@ void application::renderScreen() {
     window.draw(taskbar);
     if(FFTDone) {
         for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
-            window.draw(mapItr->second);
+            window.draw(mapItr->second.first);
         }
     }
     window.display();

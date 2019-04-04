@@ -11,11 +11,11 @@ $(PROJECT): $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ4)
 $(OBJ1): globals.h
 	 	$(VER) -c main.cpp -o $(OBJ1) -I.
 
-$(OBJ2): globals.h musicprocessor.h bars.h
+$(OBJ2): globals.h musicprocessor.h barSpectrum.h
 		$(VER) -c application.cpp -o $(OBJ2) -I.
 
 $(OBJ3): globals.h
-		$(VER) -c bars.cpp -o $(OBJ3) -I.
+		$(VER) -c barSpectrum.cpp -o $(OBJ3) -I.
 
 $(OBJ4): globals.h
 		$(VER) -c musicprocessor.cpp -o $(OBJ4) -I.
