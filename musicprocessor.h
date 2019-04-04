@@ -34,7 +34,7 @@ private:
     sf::InputSoundFile file2;
     sf::Music music;
     sf::Uint64 sampleRate;
-    sf::Uint64 sampleLength = 32768;
+    sf::Uint64 sampleLength = 2048;
     std::vector<complex_vec> freqDomain;
     std::vector<complex_vec>::iterator freqDomainItr;
     double max;

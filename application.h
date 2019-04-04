@@ -27,16 +27,37 @@ private:
     void updateScreen();
     void renderScreen();
     void getNextSample();
+    void setup();
+    void printFFTStateText();
+    void printCurrentSongText();
+    void printInstructions();
+    void boxes();
 
     sf::RenderWindow window;
     sf::Event event;
     sf::Clock clock;
     sf::Time dt;
+    std::string directory;
+    int index = 0;
+    std::string current_song;
+    std::vector <std::string> songs;
+    sf::Font Font;
+    sf::Text currentSongText;
+    sf::Text FFTStateText;
+    sf::Text Instructions;
+    sf::Text windowName;
+    int FFTOnce = -1;
+    std::string lastFFT;
     sf::RectangleShape taskbar;
+    sf::RectangleShape FFT;
+    sf::RectangleShape songBox;
+    sf::RectangleShape instructionBox;
     barSpectrum *music_bars;
     musicProcessor *song;
     bool FFTDone = false;
     bool FFTRefresh = false;
+    bool ready = false;
+    bool PLAY = false;
     std::map<float,sf::RectangleShape>::iterator mapItr;
     float duration = float(); // SFML Documentation (cite)
     std::vector<complex_vec>::iterator currentSample;

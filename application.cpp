@@ -17,12 +17,86 @@ application::application(const std::string title) {
 
     window.create(sf::VideoMode::getDesktopMode(), title,sf::Style::Default | sf::Style::Fullscreen, settings);
     window.setKeyRepeatEnabled(false);
+    setup();
+    boxes();
+    printFFTStateText();
+    printCurrentSongText();
+    printInstructions();
+}
 
-
+void application::boxes () {
     sf::Color taskbar_color(177, 186, 188);
+    sf::Color FFT_colour (255,255,255);
+    sf::Color songBoxColor (255,255,255);
+    sf::Color instructionColor (255,255,255);
     sf::RectangleShape rectangle(sf::Vector2f(window.getSize().x , 50.f));
+    sf::RectangleShape FFTbox (sf::Vector2f(window.getSize().x/1.5 , window.getSize().x/20));
+    sf::RectangleShape songShape (sf::Vector2f(window.getSize().x/1.4 , window.getSize().x/20));
+    sf::RectangleShape instructionshape (sf::Vector2f(window.getSize().x , window.getSize().x/20));
     rectangle.setFillColor(taskbar_color);
+    FFTbox.setFillColor(FFT_colour);
+    songShape.setFillColor(songBoxColor);
+    instructionshape.setFillColor(instructionColor);
     taskbar = rectangle;
+    FFT = FFTbox;
+    songBox = songShape;
+    instructionBox = instructionshape;
+    FFT.setPosition(window.getSize().x/6 , window.getSize().y/4);
+    songBox.setPosition(window.getSize().x/7,window.getSize().y/2);
+    instructionBox.setPosition(0,window.getSize().y-50.0f);
+
+}
+void application::printFFTStateText(){
+    FFTStateText.setFont(Font);
+    if (FFTOnce == 1){
+        FFTStateText.setString(lastFFT + " IS LOADED");
+    } else if (FFTOnce == 0){
+        FFTStateText.setString("FFT IN PROGRESS");
+    } else {
+        FFTStateText.setString("NO SONG LOADED");
+    }
+    FFTStateText.setCharacterSize(100); // in pixels, not points!
+    FFTStateText.setColor(sf::Color(0, 0, 0));
+    FFTStateText.setPosition(window.getSize().x/4+200 , window.getSize().y/4);
+}
+
+void application::printCurrentSongText(){
+    currentSongText.setFont(Font);
+    currentSongText.setCharacterSize(100); // in pixels, not points!
+    currentSongText.setColor(sf::Color(0, 0, 0));
+    currentSongText.setPosition(window.getSize().x/4+200 , window.getSize().y/2);
+}
+
+void application:: printInstructions(){
+    Instructions.setFont(Font);
+    Instructions.setColor(sf::Color(0, 0, 0));
+    Instructions.setString("USE LEFT AND RIGHT ARROW KEYS TO CHOSE SONG || PRESS <F> TO BEGIN FOURIER TRANSFORM || PRESS <P> TO VISUALIZE || PRESS <Q> TO ESCAPE");
+    Instructions.setPosition(window.getSize().x/11 ,window.getSize().y-43);
+}
+
+
+void application::setup(){
+    std::ifstream file;
+    std::string current_song;
+    file.open("SONGS.txt"); // open file with song names
+    std::string line; // stores the current line read in
+    int count = 0;
+    std::string font;
+    while (std::getline(file,line)){
+        if (count == 0) {
+            directory = line;
+        } else {
+            songs.push_back(line);
+        }
+        count = 1;
+    }
+    file.close();
+    if (!Font.loadFromFile("Roboto-BlackItalic.ttf")){
+        std::cout <<"Error loading Font" << std::endl;
+    }
+    current_song = songs.at(0);
+    currentSongText.setString(current_song);
+
 }
 
 application::~application() {}
@@ -34,14 +108,13 @@ application::~application() {}
 void application::run() {
     while(window.isOpen()) {
         processEvents();
-        if(doneSong) {
-            window.close();
-        }
         if(FFTRefresh) {
             flag = false;
-            // counter++;
             getNextSample();
-            // std::cout << counter << "\n";
+        }
+        if(doneSong) {
+            std::cout << "got inside doneSong\n";
+            window.close();
         }
         updateScreen();
         renderScreen();
@@ -62,22 +135,39 @@ void application::processEvents() {
                 if(event.key.code == sf::Keyboard::Q)  // closes window with "Q"
                     window.close();
                 if(event.key.code == sf::Keyboard::P) {
-                    if(FFTDone){
+                    if(ready){
+                        FFTRefresh = true;
+                        FFTDone = true;
+                        PLAY = true;
                         song->play();
                     } else {
                         std::cout << "error: no song loaded\n";
                     }
                 }
                 if(event.key.code == sf::Keyboard::F) {
-                    std::cout << "performing FFT now\n";
-                    song = new musicProcessor("/home/daniel/Documents/SEM4/project/Music_Visualizer/REZZ_-_Edge-2oIAQSUt9mo.wav");
-                    std::cout << "done FFT\n";
+                    std::cout << "FFT IN PROGRESS\n";
+                    FFTOnce = 0;
+                    lastFFT = current_song;
+                    printFFTStateText();
+                    renderScreen();
+                    FFTOnce = 1;
+                    song = new musicProcessor(directory+current_song);
+                    printFFTStateText();
+                    renderScreen();
                     music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
-                    FFTDone = true;
-                    FFTRefresh = true;
+                    ready = true;
                     flag = true;
                 }
-
+                if((event.key.code == sf::Keyboard::Left) && (index > 0)){
+                    index--;
+                    current_song = songs.at(index);
+                    currentSongText.setString(current_song);
+                }
+                if((event.key.code == sf::Keyboard::Right) && (index < songs.size()-1)){
+                    index++;
+                    current_song = songs.at(index);
+                    currentSongText.setString(current_song);
+                }
             break;
         }
     }
@@ -99,7 +189,7 @@ void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
 
-    if(FFTDone && duration > 0.01f) {
+    if(FFTDone && duration > 0.02f) {
         // std::cout << "inside\n";
         duration = 0;
         FFTRefresh = music_bars->plotBars();
@@ -119,8 +209,16 @@ void application::updateScreen() {
 */
 void application::renderScreen() {
     window.clear(sf::Color::Black);
-
     window.draw(taskbar);
+    window.draw(windowName);
+    if (!PLAY) {
+        window.draw(FFT);
+        window.draw(songBox);
+        window.draw(FFTStateText);
+        window.draw(currentSongText);
+        window.draw(instructionBox);
+        window.draw(Instructions);
+    }
     if(FFTDone) {
         for(mapItr = music_bars->start(); mapItr != music_bars->last(); mapItr++){
             window.draw(mapItr->second);

@@ -46,6 +46,7 @@ private:
     std::map <double,float> sample;
     double MAXHEIGHT, MINHEIGHT;
     std::vector<double> freqRanges;
+    double mapFreqMultiplier = 1;
 };
 
 #endif
