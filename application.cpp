@@ -69,7 +69,7 @@ void application::processEvents() {
                 }
                 if(event.key.code == sf::Keyboard::F) {
                     std::cout << "performing FFT now\n";
-                    song = new musicProcessor("/home/cyrus/Documents/Music_Visualizer/852_Hz_Sine_Wave_Sound_Frequency_Single_Tone-Y9VxxZ4AgnY.wav");
+                    song = new musicProcessor("/home/cyrus/Documents/Music_Visualizer/253011553368158.wav");
                     std::cout << "done FFT\n";
                     music_bars = new barSpectrum((int)window.getSize().x,(int)window.getSize().y,song->getMaxMinFreq(),song->getMaxMinAmp());
                     FFTDone = true;
@@ -98,7 +98,7 @@ void application::updateScreen() {
     dt = clock.restart();
     duration += dt.asSeconds();
 
-    if(FFTDone && duration > 0.01f) {
+    if(FFTDone && duration > 0.02f) {
         // std::cout << "inside\n";
         duration = 0;
         FFTRefresh = music_bars->plotBars();
