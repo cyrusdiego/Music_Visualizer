@@ -1,4 +1,3 @@
-/home/daniel/Documents/SEM4/project/Music_Visualizer/songs/
-silence.wav
-4kHz.wav
+/home/cyrus/Documents/Music_Visualizer/
+The_Beatles_-_Come_Together.wav
 REZZ_Edge.wav
