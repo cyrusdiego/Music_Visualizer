@@ -14,9 +14,9 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqE
     // Initial calculations of variables
     numBars = floor(xWindow / xPosition) + 1;
     yWindowDim = yWindow;
-    MAXHEIGHT = 10 * std::log10(ampExtremes.second);
+    MAXHEIGHT = 10 * std::log10(ampExtremes.second / pi);
     MINHEIGHT = (ampExtremes.first != 0 ? 10 * std::log10(ampExtremes.first) : 0);
-    baseMagnitude = 0.5f * MAXHEIGHT;
+    baseMagnitude = 0.4f * MAXHEIGHT;
 
     // temporary object used to store in barGraph
     sf::RectangleShape bar(sf::Vector2f(xPosition, defaultY));
@@ -250,7 +250,7 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
     for(std::vector<complex_num>::iterator i = cmplxVector->begin();
                                         i != cmplxVector->end(); i++) {
         freq = (j * (double)sampleRate) / (double)length;
-        magnitude = 10 * std::log10(std::abs(*i));
+        magnitude = 10 * std::log10(std::abs(*i) / pi);
 
         // Will only plot the bars with a certain amplitude
         if(magnitude > baseMagnitude){
