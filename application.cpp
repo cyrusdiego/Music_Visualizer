@@ -142,7 +142,7 @@ void application::processEvents() {
                         FFTDone = true;
                         PLAY = true;
                         song->play();
-                        sf::sleep(sf::seconds(0.5));
+                        // sf::sleep(sf::seconds(0.5));
                     } else {
                         std::cout << "error: no song loaded\n";
                     }
@@ -184,6 +184,9 @@ void application::getNextSample() {
     } else {
         // std::cout << "reading FFT\n";
         music_bars->readFFT(currentSample,song->getSampleRate(),currentSample->size());
+        music_bars->restoreHeight();
+        renderScreen();
+
     }
 }
 

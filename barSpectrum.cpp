@@ -15,8 +15,8 @@ barSpectrum::barSpectrum(int xWindow, int yWindow,std::pair<double,double> freqE
 
     numBars = floor(xWindow / xPosition) + 1;
     yWindowDim = yWindow;
-    MAXHEIGHT = 20 * std::log10(ampExtremes.second);
-    MINHEIGHT = (ampExtremes.first != 0 ? 20 * std::log10(ampExtremes.first) : 0);
+    MAXHEIGHT = 10 * std::log10(ampExtremes.second);
+    MINHEIGHT = (ampExtremes.first != 0 ? 10 * std::log10(ampExtremes.first) : 0);
     baseMagnitude = 0.3f * MAXHEIGHT;
     // std::cout << "maxheight and min height: ";
     // std::cout << MAXHEIGHT << " " << MINHEIGHT << "\n";
@@ -61,45 +61,46 @@ int barSpectrum::getnumBars(){
 
 float barSpectrum::mapFreq(float index) {
     double newFreq;
-    int rangeIndex;
-    int i;
-    float min = 0, low = 50, subBass = 100, bass = 300,
-     lowMidRange = 700, midRange = 1500, upMidRange = 2500,
-     presence = 4000, max = 5000;
-    for( i = 0; i < ranges.size() - 1; i++) {
-        if((ranges[i] < index) && (index <= ranges[i + 1])) {
-            rangeIndex = i;
-        }
-    }
-
-
-    switch(rangeIndex){
-        case 0:
-            newFreq = (((index - 1) / (ranges[rangeIndex] - 1)) * (low - min)) + min;
-            break;
-        case 1:
-            newFreq = (((index - 1) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (subBass - low)) + low;
-            break;
-        case 2:
-            newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (bass - subBass)) + subBass;
-            break;
-        case 3:
-            newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (lowMidRange - bass)) + bass;
-            break;
-        case 4:
-            newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (midRange - lowMidRange)) + lowMidRange;
-            break;
-        case 5:
-            newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (upMidRange - midRange)) + midRange;
-            break;
-        case 6:
-            newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (presence - upMidRange)) + upMidRange;
-            break;
-        case 7:
-            newFreq = (((index - ranges[rangeIndex]) / (numBars - ranges[rangeIndex])) * (max - presence)) + presence;
-            break;
-
-    }
+    newFreq = (((index -1 ) / (numBars - 1)) * (5000 - 20)) + 20;
+    // int rangeIndex;
+    // int i;
+    // float min = 0, low = 50, subBass = 100, bass = 300,
+    //  lowMidRange = 700, midRange = 1500, upMidRange = 2500,
+    //  presence = 4000, max = 5000;
+    // for( i = 0; i < ranges.size() - 1; i++) {
+    //     if((ranges[i] < index) && (index <= ranges[i + 1])) {
+    //         rangeIndex = i;
+    //     }
+    // }
+    //
+    //
+    // switch(rangeIndex){
+    //     case 0:
+    //         newFreq = (((index - 1) / (ranges[rangeIndex] - 1)) * (low - min)) + min;
+    //         break;
+    //     case 1:
+    //         newFreq = (((index - 1) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (subBass - low)) + low;
+    //         break;
+    //     case 2:
+    //         newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (bass - subBass)) + subBass;
+    //         break;
+    //     case 3:
+    //         newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (lowMidRange - bass)) + bass;
+    //         break;
+    //     case 4:
+    //         newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (midRange - lowMidRange)) + lowMidRange;
+    //         break;
+    //     case 5:
+    //         newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (upMidRange - midRange)) + midRange;
+    //         break;
+    //     case 6:
+    //         newFreq = (((index - ranges[rangeIndex -1]) / (ranges[rangeIndex] - ranges[rangeIndex -1])) * (presence - upMidRange)) + upMidRange;
+    //         break;
+    //     case 7:
+    //         newFreq = (((index - ranges[rangeIndex]) / (numBars - ranges[rangeIndex])) * (max - presence)) + presence;
+    //         break;
+    //
+    // }
 
      return newFreq;
 }
@@ -180,7 +181,7 @@ double barSpectrum::mapMagnitude(double magnitude) {
 
 double barSpectrum::increaseHeight(double magnitude, std::pair<sf::RectangleShape,std::pair<double,double>> &bar) {
     double x = /*yWindowDim -*/ (bar.first.getSize().y - (-magnitude / 30.0f));
-    bar.second.second ++;
+    bar.second.second++;
     //bar.second.first += 5.0f;
     double y =  magnitude;
     if((std::abs(y) - std::abs(x)) <= (magnitude / 30.0f)){
@@ -190,10 +191,10 @@ double barSpectrum::increaseHeight(double magnitude, std::pair<sf::RectangleShap
     }
 }
 double barSpectrum::decreaseHeight(double magnitude, std::pair<sf::RectangleShape,std::pair<double,double>> &bar) {
-    double x = /*yWindowDim -*/ (bar.first.getSize().y - (magnitude / (30.0f )));
+    double x = /*yWindowDim -*/ (bar.first.getSize().y - (magnitude / (30.0f - bar.second.second)));
     //bar.second.second += 5.0f;
     double y =  magnitude;
-    if((std::abs(y) - std::abs(x)) <= (magnitude / (30.0f ))) {
+    if((std::abs(y) - std::abs(x)) <= (magnitude / (30.0f - bar.second.second))) {
         return y;
     } else {
         return x;
@@ -254,34 +255,45 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
     double freq, magnitude, biggestMagnitude  = 0, biggestFrequency = 0, rangeIndex = 0;
     this->clearSampleMap();
     int counter = 0;
-    restoreHeight();
     for(std::vector<complex_num>::iterator i = cmplxVector->begin();
                                         i != cmplxVector->end(); i++) {
         freq = (j * (double)sampleRate) / (double)length;
-        magnitude = 20 * std::log10(std::abs(*i));
-        sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
-/*
-        if(freqRanges.at(rangeIndex) <= freq && freq <= freqRanges.at(rangeIndex + 1)) {
-
-            if(magnitude > biggestMagnitude && magnitude > baseMagnitude) {
-                biggestMagnitude = magnitude;
-                biggestFrequency = freq;
-            }
-
-        } else {
-            sample[findClosestFreq(biggestFrequency)] = (float)mapMagnitude(biggestMagnitude);
-            rangeIndex++;
-            biggestMagnitude = 0;
-            if(rangeIndex == freqRanges.size() -1) {
-                break;
-            }
-*/
-
-
+        magnitude = 10 * std::log10(std::abs(*i));
+        if(magnitude > baseMagnitude){
+            sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
+        }
+        // if(magnitude > biggestMagnitude){
+        //     biggestMagnitude = magnitude;
+        //     biggestFrequency = freq;
+        // }
+        // if(freqRanges.at(rangeIndex) <= freq && freq <= freqRanges.at(rangeIndex + 1)) {
+        //
+        //     if(magnitude > biggestMagnitude && magnitude > baseMagnitude) {
+        //         biggestMagnitude = magnitude;
+        //         biggestFrequency = freq;
+        //     }
+        //
+        // } else {
+        //     sample[findClosestFreq(biggestFrequency)] = (float)mapMagnitude(biggestMagnitude);
+        //     rangeIndex++;
+        //     biggestMagnitude = 0;
+        //     if(rangeIndex == freqRanges.size() -1) {
+        //         break;
+        //     }
+        // }
         j++;
         if(j == ((length /2 ) - 1)) {
             break;
         }
     }
+    // for(std::vector<complex_num>::iterator i = cmplxVector->begin();
+    //                                     i != cmplxVector->end(); i++) {
+    //     freq = (j * (double)sampleRate) / (double)length;
+    //     magnitude = 10 * std::log10(std::abs(*i));
+    //     sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
+    //     if(freq = biggestFrequency){
+    //         break;
+    //     }
+    // }
 
 }

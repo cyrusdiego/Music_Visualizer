@@ -25,7 +25,7 @@ musicProcessor::musicProcessor(std::string songName) {
     if (!file2.openFromFile(songName));
     sampleRate = getSampleRate();
     sf::Uint64 numSamples = file.getSampleCount();
-    halfSample = (numSamples/(sampleLength*2));
+    halfSample = (numSamples/(2));
     // will make sure that the array has a a power of 2 number of elements
     double max = 0, min = 0;
     maxAmplitude = 0;
