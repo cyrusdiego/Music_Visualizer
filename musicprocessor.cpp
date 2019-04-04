@@ -36,7 +36,7 @@ musicProcessor::musicProcessor(std::string songName) {
     freqDomain.insert (freqDomain.begin(),freqOne.begin(),freqOne.end());
     freqDomain.insert(freqDomain.end(),freqTwo.begin(),freqTwo.end());
     freqDomainItr = freqDomain.begin();
-    std::cout << "size: " << freqDomainItr->size() << "\n";
+    // std::cout << "size: " << freqDomainItr->size() << "\n";
     // std::cout << "sampleLength = " << sampleLength << " sampleRate = " << sampleRate << "\n";
     // std::cout << "max: " << max << "\n";
 }

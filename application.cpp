@@ -178,13 +178,12 @@ void application::processEvents() {
 
 void application::getNextSample() {
     currentSample = song->getIterator();
-
     if(currentSample == song->last()){
         std::cout << "currentSample = song->last()\n";
         doneSong = true;
     } else {
         // std::cout << "reading FFT\n";
-        music_bars->readFFT(currentSample,song->getSampleRate(),song->getLength());
+        music_bars->readFFT(currentSample,song->getSampleRate(),currentSample->size());
     }
 }
 

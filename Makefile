@@ -1,4 +1,4 @@
-VER = g++ -std=c++11 -pthread
+VER = g++ -std=c++11
 OBJ1 = main.o
 OBJ2 = app.o
 OBJ3 = bar.o
@@ -6,7 +6,7 @@ OBJ4 = music.o
 PROJECT = main
 
 $(PROJECT): $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ4)
-		$(VER) $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ4) -o $(PROJECT) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+		$(VER) $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ4) -o $(PROJECT) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -pthread
 
 $(OBJ1): globals.h
 	 	$(VER) -c main.cpp -o $(OBJ1) -I.

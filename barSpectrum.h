@@ -49,7 +49,7 @@ private:
     std::vector<int> ranges;
     std::vector<int> freqRanges = { 0, 60, 100, 300,700, 1500, 2500, 4000, 5000};
     float baseMagnitude;
-    double xPosition = 130, defaultY = -200.0f;
+    double xPosition = 20, defaultY = -200.0f;
 };
 
 #endif
