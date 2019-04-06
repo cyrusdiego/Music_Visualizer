@@ -59,7 +59,7 @@ private:
     bool FFTRefresh = false;
     bool ready = false;
     bool PLAY = false;
-    std::map<float,std::pair<sf::RectangleShape,std::pair<double,double>>>::iterator mapItr;
+    std::map<float,std::pair<sf::RectangleShape,double>>::iterator mapItr;
     double duration = double();
     std::vector<complex_vec>::iterator currentSample;
     std::vector<complex_vec>::iterator temp;
