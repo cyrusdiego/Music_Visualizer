@@ -1,4 +1,4 @@
-#CMPUT 275 FINAL PROJECT: FFT Visualizer
+#h1 CMPUT 275 FINAL PROJECT: FFT Visualizer
 --------------------------------------------------------------------------------
 #DESCRIPTION:
     Using music files (.wav) as our source of data, we implemented our own
