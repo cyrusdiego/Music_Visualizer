@@ -1,6 +1,6 @@
 /*
     NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
-    ID: 1528911 and
+    ID: 1528911 and 1531475
     CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
 
     application.h : header file declaring application class
@@ -11,6 +11,7 @@
 #include "globals.h"
 #include "barSpectrum.h"
 #include "musicprocessor.h"
+
 /*
     application class that holds the window instantiating, keyboard input,
     and the application running
@@ -59,7 +60,7 @@ private:
     bool ready = false;
     bool PLAY = false;
     std::map<float,std::pair<sf::RectangleShape,std::pair<double,double>>>::iterator mapItr;
-    double duration = double(); // SFML Documentation (cite)
+    double duration = double();
     std::vector<complex_vec>::iterator currentSample;
     std::vector<complex_vec>::iterator temp;
     bool flag = false, doneSong = false;

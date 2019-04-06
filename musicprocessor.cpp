@@ -32,7 +32,7 @@ musicProcessor::musicProcessor(std::string songName) {
     minAmplitude = 10000000;
 
     // divide and conquer approach to split the workload of calculating fft
-    // of whole song 
+    // of whole song
     std::thread first (&musicProcessor::firstHalf,this,std::ref(freqOne));
     secondHalf (freqTwo);
     first.join();
@@ -57,6 +57,7 @@ std::pair <double,double> musicProcessor::getMaxMinFreq(){
     return extremes;
 }
 
+// https://stackoverflow.com/questions/3555318/implement-hann-window (hanning window refrence)
 // first half of fft, will take a sample of length 2048 and apply fft to that
 void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     int counter = 0;
@@ -125,6 +126,7 @@ sf::Uint64 musicProcessor::getLength(){
     return sampleLength;
 }
 
+// http://people.scs.carleton.ca/~maheshwa/courses/5703COMP/16Fall/FFT_Report.pdf
 void musicProcessor::FFT(complex_vec& vec){
     assert(log2(vec.size()) >= 0); // ensures that the size is 2^m m >= 0
 
