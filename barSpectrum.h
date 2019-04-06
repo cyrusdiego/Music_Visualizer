@@ -1,7 +1,7 @@
 /*
     NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
     ID: 1528911 and 1531475
-    CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
+    CMPUT 275 WINTER 2019 Final Project: FFT Visualizer 
 
     barSpectrum.h : header file declaring barSpectrum class
 */

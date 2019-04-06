@@ -1,12 +1,12 @@
 /*
     NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
     ID: 1528911 and 1531475
-    CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
+    CMPUT 275 WINTER 2019 Final Project: FFT Visualizer
 
     barSpectrum.cpp : implementation of barSpectrum class
         - Holds all bars in map with frequencies as keys
         - increases / decreases heights of bars
-        - reads in FFT Buffer and changes heights of the bars 
+        - reads in FFT Buffer and changes heights of the bars
 */
 #include "barSpectrum.h"
 

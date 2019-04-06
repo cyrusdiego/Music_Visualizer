@@ -1,7 +1,7 @@
 /*
     NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
     ID: 1528911 and 1531475
-    CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
+    CMPUT 275 WINTER 2019 Final Project: FFT Visualizer
 
     globals.h : header file containing content all files require
 */
@@ -15,7 +15,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 
-// STL / C++ Libraries 
+// STL / C++ Libraries
 #include <string>
 #include <cassert>  // for assert
 #include <cmath>  // for log2

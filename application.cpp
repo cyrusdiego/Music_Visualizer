@@ -1,7 +1,7 @@
 /*
     NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
     ID: 1528911 and 1531475
-    CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
+    CMPUT 275 WINTER 2019 Final Project: FFT Visualizer
 
     application.cpp : implementation of the application class
         - Launches the window / GUI using SFML
@@ -260,7 +260,7 @@ void application::renderScreen() {
     window.draw(taskbar);
     window.draw(windowName);
 
-    // draws the initial gui objects 
+    // draws the initial gui objects
     if (!PLAY) {
         window.draw(FFT);
         window.draw(songBox);
