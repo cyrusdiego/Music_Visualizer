@@ -1,5 +1,5 @@
 # CMPUT 275 FINAL PROJECT: FFT Visualizer
-![alt text] (https://github.com/cyrusdiego/Music_Visualizer/blob/master/demo.png)
+![alt text](https://github.com/cyrusdiego/Music_Visualizer/blob/master/demo.png)
 ## Cyrus Diego and Daniel Rojas-Cardona 
 --------------------------------------------------------------------------------
 # DESCRIPTION:
