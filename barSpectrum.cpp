@@ -3,7 +3,10 @@
     ID: 1528911 and 1531475
     CMPUT 275 WINTER 2019 Final Project: MUSIC VISUALIZER
 
-    application.cpp : implementation of the application class
+    barSpectrum.cpp : implementation of barSpectrum class
+        - Holds all bars in map with frequencies as keys
+        - increases / decreases heights of bars
+        - reads in FFT Buffer and changes heights of the bars 
 */
 #include "barSpectrum.h"
 
@@ -250,7 +253,7 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
     for(std::vector<complex_num>::iterator i = cmplxVector->begin();
                                         i != cmplxVector->end(); i++) {
 
-        
+        // calculate frequency and magnitude
         freq = (j * (double)sampleRate) / (double)length;
         magnitude = 10 * std::log10(std::abs(*i));
 
@@ -258,8 +261,9 @@ void barSpectrum::readFFT(std::vector<complex_vec>::iterator cmplxVector,sf::Uin
         if(magnitude > baseMagnitude){
             sample[findClosestFreq(freq)] = (float)mapMagnitude(magnitude);
         }
+        // increment counter
         j++;
-        if(j == ((length / 2 ) - 1)) {
+        if(j == ((length / 2 ) - 1)) {  // break loop at half of the samples
             break;
         }
     }
