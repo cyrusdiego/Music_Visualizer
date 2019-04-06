@@ -1,4 +1,5 @@
 # CMPUT 275 FINAL PROJECT: FFT Visualizer
+
 ## Cyrus Diego and Daniel Rojas-Cardona 
 --------------------------------------------------------------------------------
 # DESCRIPTION:
