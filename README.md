@@ -1,6 +1,7 @@
-#h1 CMPUT 275 FINAL PROJECT: FFT Visualizer
+# CMPUT 275 FINAL PROJECT: FFT Visualizer
+## Cyrus Diego and Daniel Rojas-Cardona 
 --------------------------------------------------------------------------------
-#DESCRIPTION:
+# DESCRIPTION:
     Using music files (.wav) as our source of data, we implemented our own
     fast fourier transform (FFT) function that reads in raw audio data and
     performs a fourier transform to determine the frequencies playing at each second.
@@ -9,25 +10,11 @@
     will increase in height depending on the magnitude of the frequencies playing
 
 --------------------------------------------------------------------------------
-#LIBRARIES USED:
+# LIBRARIES USED:
     - SFML : sudo apt-get install libsfml-dev
 
 --------------------------------------------------------------------------------
-#INCLUDED FILES:
-    - README
-    - Makefile
-    - globals.h
-    - main.cpp
-    - application.cpp
-    - application.h
-    - barSpectrum.cpp
-    - barSpectrum.h
-    - musicprocessor.cpp
-    - musicprocessor.h
-    - SONGS.txt
-
---------------------------------------------------------------------------------
-#HOW DOES IT WORK?
+# HOW DOES IT WORK?
     1) select a song to analyze
 
     2) perform FFT on whole song:
@@ -46,7 +33,7 @@
     6) repeat this process until the entire table has been iterated
 
 --------------------------------------------------------------------------------
-#ACKNOWLEDGMENTS:
+# ACKNOWLEDGMENTS:
     - FFT Algorithm
 http://people.scs.carleton.ca/~maheshwa/courses/5703COMP/16Fall/FFT_Report.pdf
     - SFML
