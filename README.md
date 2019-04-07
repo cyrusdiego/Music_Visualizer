@@ -1,6 +1,6 @@
 # CMPUT 275 FINAL PROJECT: FFT Visualizer
 ![alt text](https://github.com/cyrusdiego/Music_Visualizer/blob/master/demo.png)
-## Cyrus Diego and Daniel Rojas-Cardona 
+## Cyrus Diego and Daniel Rojas-Cardona
 --------------------------------------------------------------------------------
 # DESCRIPTION:
 Using music files (.wav) as our source of data, we implemented our own
@@ -12,7 +12,7 @@ will increase in height depending on the magnitude of the frequencies playing
 
 --------------------------------------------------------------------------------
 # LIBRARIES USED:
-- SFML : sudo apt-get install libsfml-dev
+- SFML : `sudo apt-get install libsfml-dev`
 
 --------------------------------------------------------------------------------
 
@@ -33,9 +33,33 @@ buffer and calculates the magnitude each bar must increase to
 and get the next column from the table
 
 6) repeat this process until the entire table has been iterated
+--------------------------------------------------------------------------------
+
+# USAGE:
+   SETUP:
+   - Install SFML
+   - Create file named "SONGS.txt" in same directory as all the .cpp and .h files
+   - Create a directory that will be used to hold songs that are to be visualized
+   - In "SONGS.txt" in the first line, write the file path of the directory that contains all the audio files
+
+   ADDING SONGS:
+   - The audio file must be of type .wav
+   - store song in directory created in SETUP
+   - add the EXACT name of the audio file into SONGS.txt
+   - ALL songs must be wrtten DIRECTLY UNDERNEATH the previous song/file directory (NO EMPTY LINES)
+
+   RUNNING:
+   - In the directory that contains  .cpp and .h files type "make" into the termimal
+   - Then type "./main" in the terminal to open the GUI
+   - Follow the instrunction on the bottom of the screen of the GUI
+   - To clean directory, type "make clean" in the terminal
 
 --------------------------------------------------------------------------------
 
+# COLLABORATORS:
+- Cyrus Diego *Software Engineering Student uAlberta* [github](https://github.com/cyrusdiego)
+- Daniel Rojas-Cardona *Computer (Nanoscale Design Option) Engineering Student uAlberta* [github](https://github.com/drojasca)
+--------------------------------------------------------------------------------
 # ACKNOWLEDGMENTS:
 - FFT Algorithm
 http://people.scs.carleton.ca/~maheshwa/courses/5703COMP/16Fall/FFT_Report.pdf
