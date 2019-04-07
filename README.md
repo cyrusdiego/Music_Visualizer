@@ -36,7 +36,7 @@ and get the next column from the table
 --------------------------------------------------------------------------------
 
 # USAGE:
-    SETUP:
+   SETUP:
     - Install SFML
     - Create file named "SONGS.txt" in same directory as all the .cpp and .h files
     - Create a directory that will be used to hold songs that are to be visualized
