@@ -1,2 +1,0 @@
-/home/daniel/Documents/SEM4/project/Music_Visualizer/songs/
-INSERT SONG HERE 
