@@ -57,8 +57,8 @@ and get the next column from the table
 --------------------------------------------------------------------------------
 
 # COLLABORATORS:
-- Cyrus Diego Software Engineering Student uAlberta [github](https://github.com/cyrusdiego)
-- Daniel Rojas-Cardona Computer (Nanoscale Design Option) Engineering Student uAlberta [github](https://github.com/drojasca)
+- Cyrus Diego *Software Engineering Student uAlberta* [github](https://github.com/cyrusdiego)
+- Daniel Rojas-Cardona *Computer (Nanoscale Design Option) Engineering Student uAlberta* [github](https://github.com/drojasca)
 --------------------------------------------------------------------------------
 # ACKNOWLEDGMENTS:
 - FFT Algorithm
