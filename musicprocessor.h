@@ -1,6 +1,6 @@
 /*
     NAMES: CYRUS DIEGO and DANIEL ROJAS-CARDONA
-    ID: 1528911 and
+    ID: 1528911 and 1531475
     CMPUT 275 WINTER 2019 Final Project: FFT Visualizer
 
     bars.h : header file declaring bars class
@@ -10,8 +10,8 @@
 #define MUSICPROCESSOR_H
 #include "globals.h"
 
-/* Music Processor class will run the fouring transform on the samples of them
-song
+/* Music Processor class will proccess the input wave file and perform the
+FFT on the samples and will store them to be accessed later
 */
 class musicProcessor {
 public:

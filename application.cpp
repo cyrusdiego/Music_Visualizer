@@ -117,10 +117,13 @@ void application::setup(){
     std::string line; // stores the current line read in
     int count = 0;
     std::string font;
-
+    // read in the SONGS.txt file
     while (std::getline(file,line)){
+        // the first line is the file path to the directory containing all
+        // the names of songs
         if (count == 0) {
             directory = line;
+        // will add the song name to the vector
         } else {
             songs.push_back(line);
         }
@@ -132,7 +135,7 @@ void application::setup(){
     if (!Font.loadFromFile("Roboto-BlackItalic.ttf")){
         std::cout <<"Error loading Font" << std::endl;
     }
-
+    // will set the current song to the first song that was read in
     current_song = songs.at(0);
     currentSongText.setString(current_song);
 
