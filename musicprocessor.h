@@ -3,15 +3,16 @@
     ID: 1528911 and 1531475
     CMPUT 275 WINTER 2019 Final Project: FFT Visualizer
 
-    bars.h : header file declaring bars class
+    musicprocessor.h : header file for the musicprocessor class
 */
 
 #ifndef MUSICPROCESSOR_H
 #define MUSICPROCESSOR_H
 #include "globals.h"
 
-/* Music Processor class will proccess the input wave file and perform the
-FFT on the samples and will store them to be accessed later
+/*
+    Music Processor class will proccess the input wave file and perform the
+    FFT on the samples and will store them to be accessed later
 */
 class musicProcessor {
 public:

@@ -3,7 +3,7 @@
     ID: 1528911 and 1531475
     CMPUT 275 WINTER 2019 Final Project: FFT Visualizer
 
-    bars.h : header file declaring bars class
+    musicprocessor.cpp : runs FFT for the song loaded and also plays the song
 */
 // threads: https://stackoverflow.com/questions/17472827/create-thread-inside-class-with-function-from-same-class
 #include "musicprocessor.h"
@@ -44,6 +44,7 @@ musicProcessor::musicProcessor(std::string songName) {
     std::thread first (&musicProcessor::firstHalf,this,std::ref(freqOne));
     secondHalf (freqTwo);
     first.join();
+    
     // will join all the transformed samples into a single vector
     freqDomain.insert (freqDomain.begin(),freqOne.begin(),freqOne.end());
     freqDomain.insert(freqDomain.end(),freqTwo.begin(),freqTwo.end());
@@ -166,7 +167,7 @@ sf::Uint64 musicProcessor::getLength(){
 
 /*
     will perform the fast fourier transform on the samples
-    @param : complex vector to run FFT thru 
+    @param : complex vector to run FFT thru
 */
 void musicProcessor::FFT(complex_vec& vec){
     assert(log2(vec.size()) >= 0); // ensures that the size is 2^m m >= 0
