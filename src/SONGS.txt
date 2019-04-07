@@ -1,4 +1,2 @@
 /home/daniel/Documents/SEM4/project/Music_Visualizer/songs/
-4kHz.wav
-REZZ_Edge.wav
-Eminime-Not-Afraid.wav
+INSERT SONG HERE 
