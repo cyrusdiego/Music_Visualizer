@@ -11,12 +11,6 @@
 
 # fonts
 *.ttf
-<<<<<<< HEAD
 
-# text file
-*.txt
-=======
-
-# text file
-*.txt
->>>>>>> c212912b58106fff61e50fa4ddf2ad978f96e025
+# Directories
+FINISHED 
