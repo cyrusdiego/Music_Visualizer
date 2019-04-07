@@ -1,6 +1,6 @@
 # CMPUT 275 FINAL PROJECT: FFT Visualizer
 ![alt text](https://github.com/cyrusdiego/Music_Visualizer/blob/master/demo.png)
-## Cyrus Diego and [Daniel Rojas-Cardona](https://github.com/drojasca?tab=repositories)
+## Cyrus Diego and Daniel Rojas-Cardona
 --------------------------------------------------------------------------------
 # DESCRIPTION:
 Using music files (.wav) as our source of data, we implemented our own
@@ -56,6 +56,10 @@ and get the next column from the table
 
 --------------------------------------------------------------------------------
 
+# COLLABORATORS:
+Cyrus Diego 
+Daniel Rojas-Cardona [github](https://github.com/drojasca?tab=repositories)
+--------------------------------------------------------------------------------
 # ACKNOWLEDGMENTS:
 - FFT Algorithm
 http://people.scs.carleton.ca/~maheshwa/courses/5703COMP/16Fall/FFT_Report.pdf
