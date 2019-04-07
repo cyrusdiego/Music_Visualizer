@@ -57,8 +57,8 @@ and get the next column from the table
 --------------------------------------------------------------------------------
 
 # COLLABORATORS:
-Cyrus Diego 
-Daniel Rojas-Cardona [github](https://github.com/drojasca?tab=repositories)
+- Cyrus Diego 
+- Daniel Rojas-Cardona [github](https://github.com/drojasca?tab=repositories)
 --------------------------------------------------------------------------------
 # ACKNOWLEDGMENTS:
 - FFT Algorithm
