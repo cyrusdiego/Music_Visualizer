@@ -12,7 +12,7 @@ will increase in height depending on the magnitude of the frequencies playing
 
 --------------------------------------------------------------------------------
 # LIBRARIES USED:
-- SFML : sudo apt-get install libsfml-dev
+- SFML : `sudo apt-get install libsfml-dev`
 
 --------------------------------------------------------------------------------
 
