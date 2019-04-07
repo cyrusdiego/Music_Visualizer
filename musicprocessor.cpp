@@ -10,7 +10,10 @@
 #include <thread>
 #include <typeinfo>
 
-/* This function will convert real input into an imaginary number
+/*
+    This function will convert real input into an imaginary number
+    @param : i is the real number to convert to complex
+    @return : the complex number converted of form i + 0j
 */
 complex_num makeComp(sf::Int16 i) {
     complex_num temp (0,0);
@@ -19,7 +22,9 @@ complex_num makeComp(sf::Int16 i) {
 
 musicProcessor::musicProcessor(){}
 
-/*Contructor
+/*
+    Contructor
+    @param : the name of the song to load
 */
 musicProcessor::musicProcessor(std::string songName) {
     // load the song into the sound object
@@ -46,19 +51,22 @@ musicProcessor::musicProcessor(std::string songName) {
 
 }
 
-/* will return a pair that contains the minimum and maximum amplitudes
+/*
+    will return a pair that contains the minimum and maximum amplitudes
 */
 std::pair<double,double> musicProcessor::getMaxMinAmp(){
     return std::make_pair(minAmplitude,maxAmplitude);
 }
 
-/* will return the sample rate of the song
+/*
+    will return the sample rate of the song
 */
 sf::Uint64 musicProcessor::getSampleRate() {
     return file.getSampleRate();
 }
 
-/* Returns the minimum and maximum frequencies
+/*
+    Returns the minimum and maximum frequencies
 */
 std::pair <double,double> musicProcessor::getMaxMinFreq(){
     max = (((sampleLength / 2) - 1) * sampleRate) / sampleLength;
@@ -67,7 +75,9 @@ std::pair <double,double> musicProcessor::getMaxMinFreq(){
 }
 
 // https://stackoverflow.com/questions/3555318/implement-hann-window (hanning window refrence)
-/*Will perform the FFT transform on the first half of the samples
+/*
+    Will perform the FFT transform on the first half of the samples
+    @param: the complex vector of samples to run FFT thru
 */
 void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     int counter = 0; // flag variable used when reading and applying fourier
@@ -93,7 +103,9 @@ void musicProcessor::firstHalf(std::vector<complex_vec> &vec){
     }
 }
 
-/*Will perform the FFT transform on the second half of the samples
+/*
+    Will perform the FFT transform on the second half of the samples
+    @param: the complex vector of samples to run FFT thru
 */
 void musicProcessor::secondHalf(std::vector<complex_vec> &vec){
     file2.seek(file.getSampleCount()/2);  // starts at 2nd half of music file
@@ -116,38 +128,45 @@ void musicProcessor::secondHalf(std::vector<complex_vec> &vec){
         vec.push_back(compSample); // add the vector of samples to the table
     }
 }
-/*Destructor
-*/
 
+/*
+    Destructor
+*/
 musicProcessor::~musicProcessor(){}
 
-/* Will play the music object that was load previously
+/*
+    Will play the music object that was load previously
 */
 void musicProcessor::play() {
     music.play();
 }
 
-/* returns the pointer to freqDomain vector
+/*
+    returns the pointer to freqDomain vector
 */
 std::vector<complex_vec>::iterator musicProcessor::getIterator(){
     auto temp = freqDomainItr;
     freqDomainItr++;
     return temp;
 }
-/* Will return the end iterator of the table containing all of the samples
+/*
+    Will return the end iterator of the table containing all of the samples
 */
 std::vector<complex_vec>::iterator musicProcessor::last(){
     return freqDomain.end();
 }
 
 
-/* Returns the length of samples that are read in at a time
+/*
+    Returns the length of samples that are read in at a time
 */
 sf::Uint64 musicProcessor::getLength(){
     return sampleLength;
 }
 
-/* will perform the fast fourier transform on the samples
+/*
+    will perform the fast fourier transform on the samples
+    @param : complex vector to run FFT thru 
 */
 void musicProcessor::FFT(complex_vec& vec){
     assert(log2(vec.size()) >= 0); // ensures that the size is 2^m m >= 0
