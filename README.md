@@ -3,6 +3,8 @@
 ## Cyrus Diego and Daniel Rojas-Cardona
 --------------------------------------------------------------------------------
 # DESCRIPTION:
+This is our final project for CMPUT 275 Winter 2019 
+
 Using music files (.wav) as our source of data, we implemented our own
 fast fourier transform (FFT) function that reads in raw audio data and
 performs a fourier transform to determine the frequencies playing at each second.
