@@ -1,6 +1,6 @@
 # CMPUT 275 FINAL PROJECT: FFT Visualizer
 ![alt text](https://github.com/cyrusdiego/Music_Visualizer/blob/master/demo.png)
-## Cyrus Diego and Daniel Rojas-Cardona 
+## Cyrus Diego and [Daniel Rojas-Cardona](https://github.com/drojasca?tab=repositories)
 --------------------------------------------------------------------------------
 # DESCRIPTION:
 Using music files (.wav) as our source of data, we implemented our own
@@ -37,22 +37,22 @@ and get the next column from the table
 
 # USAGE:
    SETUP:
-    - Install SFML
-    - Create file named "SONGS.txt" in same directory as all the .cpp and .h files
-    - Create a directory that will be used to hold songs that are to be visualized
-    - In "SONGS.txt" in the first line, write the file path of the directory that contains all the audio files
+   - Install SFML
+   - Create file named "SONGS.txt" in same directory as all the .cpp and .h files
+   - Create a directory that will be used to hold songs that are to be visualized
+   - In "SONGS.txt" in the first line, write the file path of the directory that contains all the audio files
 
    ADDING SONGS:
-    - The audio file must be of type .wav
-    - store song in directory created in SETUP
-    - add the EXACT name of the audio file into SONGS.txt
-    - ALL songs must be wrtten DIRECTLY UNDERNEATH the previous song/file directory (NO EMPTY LINES)
+   - The audio file must be of type .wav
+   - store song in directory created in SETUP
+   - add the EXACT name of the audio file into SONGS.txt
+   - ALL songs must be wrtten DIRECTLY UNDERNEATH the previous song/file directory (NO EMPTY LINES)
 
    RUNNING:
-    - In the directory that contains  .cpp and .h files type "make" into the termimal
-    - Then type "./main" in the terminal to open the GUI
-    - Follow the instrunction on the bottom of the screen of the GUI
-    - To clean directory, type "make clean" in the terminal
+   - In the directory that contains  .cpp and .h files type "make" into the termimal
+   - Then type "./main" in the terminal to open the GUI
+   - Follow the instrunction on the bottom of the screen of the GUI
+   - To clean directory, type "make clean" in the terminal
 
 --------------------------------------------------------------------------------
 
